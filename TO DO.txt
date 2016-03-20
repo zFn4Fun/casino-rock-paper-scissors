@@ -1,0 +1,69 @@
+Add a way to keep score
+End the game, maybe using this formula: number of games / 2 < games won || games ai won
+
+Maybe add some casino style option, where you can bet money
+
+Achievements
+ ROUNDS
+  Win 100 rounds with Rock
+  Win 100 rounds with Paper
+  Win 100 rounds with Scissors
+  Win 100 total rounds in Free Play
+  Win 500 rounds total (in any game mode)
+  Draw 100 rounds
+  Lose 200 rounds
+ Games
+  Win 50 best of 1/3/5 games
+  Win 200 games total (in any game mode)
+  Lose 100 games
+ Money
+  Win 10000$ (Maybe name it Rich Man's World)
+  Earn 10000$ from Achievements
+  Lose 10000$.
+  Have 10000$ on hand.
+ MISC
+  Forfeit 1 time (Don't wanna make this annoying to get)
+  Bankrupt 1 time
+  Have a 75% winrate with at least 10 games played
+  Win 30 rounds in one session of Free Play
+  Secret achievement that unlocks when reading the credits (if I add a credits page)
+  Unlock all achievements (Maybe name it 100%'d)
+
+Options
+ Maybe have some option to change Currency (euro, pound, dollar, lei, yen, etc.)
+ Option to change the language. (Add localization?)
+ Option to turn audio on/off (if im gonna add sounds)
+ Option to reset the profile (stats, achievements)
+ Option to import/export the profile (so you can play on different browsers)
+
+Stats
+ Have a stats page that display: 
+   Games won/lost
+   Games won/lost in every mod
+   Games forfeited
+   Rounds Won with rock/paper/scissors
+   Rounds won/draw/lost
+   Money
+   Money lost/won
+   Money Balance (money won + money earned from achivs - money lost)
+   Bankrupt (how many times you got to 0 money) (If u get to 0 money, the game gives you 100$)
+   Winrate (games won / (games won + games forfeited + games lost) * 100)
+
+ Not used:
+   Current win/lose streak
+   Longest win/lose streak
+
+FIX
+ Being able to click on another card after picking one already. - This is fixed by adding and removing the eventListeners through js.
+ Only show the forfeit option after the player betted, otherwise show the back to main menu.
+
+
+See if there's a CDN for animate.css
+Add the Font Awesome CDN
+
+Bankrupcy: The casino owner felt bad for you losing all your money, so he gave you 100$ back.
+
+The achievements container, previously 150px
+<div style="height: 250px;overflow: auto;">
+
+change function getPercentage to calcPercentage

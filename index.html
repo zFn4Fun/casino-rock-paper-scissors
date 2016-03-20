@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Casino Rock Paper Scissors</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link rel="shortcut icon" type="image/png" href="favicon.png" />
+  <link href="default.css" rel="stylesheet" />
+  <link href="font-awesome.min.css" rel="stylesheet" />
+  <link href="animate.css" rel="stylesheet" />
+  <script src="script.js"></script>
+  <style>
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  font-family: "Open Sans", "Helvetica Neue";
+  font-size: 20px;
+  color: #FFF;
+  background-color: #333;
+  background-image: url(images/bg.png);
+  background-size: cover;
+  text-align: center;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.title {
+  margin: 0;
+  font-size: 40px;
+}
+
+.subtitle {
+  margin-top: 0;
+}
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
+}
+
+.smaller-font {
+  font-size: 17px;
+}
+
+.small-font {
+  font-size: 15px;
+}
+
+.smallest-font {
+  font-size: 12px;
+}
+
+#content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.mainscreen {
+  width: 600px;
+  padding: 20px 20px 0 20px;
+}
+.menu {
+  height: 45px;
+  margin-bottom: 4px;
+}
+.menu-option {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 6px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid black;
+  border-radius: 5px;
+  transition: transform 1s, font-size 1s, color 1s;
+}
+.menu-option:hover {
+  cursor: pointer;
+  color: gray;
+  font-size: 23px;
+  transform: rotate(7deg);
+}
+.menu-option:nth-child(even):hover {
+  transform: rotate(-7deg);
+}
+.submenu {
+
+}
+.submenu-option {
+  color: gray;
+  display: inline;
+  font-size: 14px;
+  padding-left: 2px;
+  transition: color 0.5s, text-decoration 1s;
+}
+.submenu-option:hover {
+  color: #FFF;
+  cursor: pointer;
+}
+.gamescreen {
+  display: none;
+  width: 350px;
+  padding: 20px;
+}
+.table {
+  height: 140px;
+}
+.betting-option {
+  display: inline-block;
+  border: 1px solid gray;
+  margin: 2.5px 1px;
+  padding: 2px;
+  background: -moz-linear-gradient(left,green 0, green 50%, green 100%);
+}
+.betting-option:hover {
+  cursor: pointer;
+}
+.hand {
+  height: 80px;
+}
+.card {
+  margin-left: 6px;
+  width: 62px;
+  height: 75px;
+  background-image: url(images/card-front.png);
+  background-color: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  color: AliceBlue;
+  transition: color 0.5s;
+}
+.card:disabled {
+  color: gray;
+}
+.card-player:hover,
+.card-active {
+  font-size: 14px;
+}
+.card i {
+  font-size: 40px;
+}
+.card-player:hover i,
+.card-active i {
+  font-size: 43px;
+}
+.statsscreen {
+  display: none;
+  width: 600px;
+  padding: 20px 20px 0 20px;
+}
+.statsscreen p {
+  margin: 0;
+  font-size: 15px;
+  text-align: left;
+}
+.stats-category {
+  display: inline-block;
+  height: 100%;
+  padding: 0 6px;
+}
+.achievementsscreen {
+  display: none;
+  width: 600px;
+  padding: 20px 20px 0 20px;
+}
+
+.achievement {
+  text-align: left;
+}
+
+.achievement-locked {
+  color: gray;
+}
+
+.achievement-unlocked {
+  color: #FFF;
+}
+
+.achievement-icon {
+  font-size: 56px;
+  display: inline-block;
+  width: 15%;
+}
+
+.achievement-details {
+  display: inline-block;
+  width: 79%;
+}
+
+.achievement-details-left {
+  display: inline-block;
+  width: 70%;
+}
+
+.achievement-details-right {
+  display: inline-block;
+  width: 30%;
+}
+
+.optionsscreen {
+  display: none;
+  width: 600px;
+  padding: 20px 20px 0 20px;
+}
+.unlockedachiv {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  background-color: transparent;
+  background-image: url(images/achivements.png);
+  background-size: cover;
+  z-index: 99;
+  padding: 8px;
+  font-size: 14px;
+  color: black;
+}
+
+footer {
+  background-color: #000;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  height: 35px;
+  margin-bottom: 10px;
+  width: 100%;
+  z-index: 99;
+  opacity: 0.7;
+  padding-top: 10px;
+  font-size: 16px;
+}
+footer p {
+  margin: 0;
+}
+@media (max-width: 768px) {
+  footer {
+    font-size: 14.4px;
+	height: 25px;
+	padding-top: 5px;
+	margin-bottom: 5px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    footer {
+    font-size: 15px;
+	height: 28px;
+	padding-top: 6px;
+	margin-bottom: 6px;
+  }
+}
+.div_split {
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 7px;
+    height: 2px;
+    background: -webkit-gradient(linear,left top,right top,color-stop(0,rgba(52,152,219,0)),color-stop(50%,rgba(52,152,219,.75)),color-stop(100%,rgba(52,152,219,0)));
+	background: -webkit-linear-gradient(left,rgba(52,152,219,0) 0,rgba(52,152,219,.75) 50%,rgba(52,152,219,0) 100%);
+	background: -moz-linear-gradient(left,rgba(52,152,219,0) 0,rgba(52,152,219,.75) 50%,rgba(52,152,219,0) 100%);
+	background: -ms-linear-gradient(left,rgba(52,152,219,0) 0,rgba(52,152,219,.75) 50%,rgba(52,152,219,0) 100%);
+	background: -o-linear-gradient(left,rgba(52,152,219,0) 0,rgba(52,152,219,.75) 50%,rgba(52,152,219,0) 100%);
+	background: linear-gradient(left,rgba(52,152,219,0) 0,rgba(52,152,219,.75) 50%,rgba(52,152,219,0) 100%)
+}
+.div_split-title {
+  margin-bottom: 28px;
+}
+  </style>
+</head>
+
+<body>
+<div id="content">
+<div id="mainscreen" class="mainscreen">
+<h1 class="title">Casino Rock Paper Scissors <i class="fa fa-hand-scissors-o"></i></h1>
+<div class="div_split div_split-title"></div>
+
+<div class="menu">
+  <div class="menu-option" onclick="play(1);">Best of 1</div>
+  <div class="menu-option" onclick="play(3);">Best of 3</div>
+  <div class="menu-option" onclick="play(5);">Best of 5</div>
+  <div class="menu-option" onclick="play(Infinity);">Free Play</div>
+</div>
+
+<div class="submenu">
+  <div class="submenu-option" onclick="changePanel('statsscreen');"><i class="fa fa-bar-chart fa-fw"></i> Stats</div>
+  <div class="submenu-option" onclick="changePanel('achievementsscreen');"><i class="fa fa-trophy fa-fw"></i> Achievements</div>
+  <div class="submenu-option" onclick="changePanel('optionsscreen');"><i class="fa fa-cog fa-fw"></i> Options</div>
+</div>
+
+<div style="font-size: 12px; color: gray;text-align: right;">v0.1.8</div>
+</div>
+
+<div id="gamescreen" class="gamescreen">
+<div class="hand">
+  <button class="btn card" id="aibtn1"><i class="fa fa-question"></i><br />????????</button>
+  <button class="btn card" id="aibtn2"><i class="fa fa-question"></i><br />????????</button>
+  <button class="btn card" id="aibtn3"><i class="fa fa-question"></i><br />????????</button>
+</div>
+
+<div class="div_split"></div>
+<div><div style="text-align: left;display: inline-block;width: 49.2%;font-size: 17px;">Pot: <span id="pot">0</span><span class="currency">&dollar;</span></div> <div style="text-align: right;display: inline-block;width: 49.2%;font-size: 17px;">Score: <span id="aiscore">0</span></div></div>
+
+<div class="table">
+  <div id="betting" class="center">
+    <p style="margin: 0;">Bet:</p>
+    <div class="betting-option" onclick="bet(10);"><span class="betting-value">10</span><span class="currency">&dollar;</span></div>
+	<div class="betting-option" onclick="bet(25);"><span class="betting-value">25</span><span class="currency">&dollar;</span></div>
+	<div class="betting-option" onclick="bet(50);"><span class="betting-value">50</span><span class="currency">&dollar;</span></div>
+	<div class="betting-option" onclick="bet(100);"><span class="betting-value">100</span><span class="currency">&dollar;</span></div>
+	<div class="betting-option" onclick="bet(500);"><span class="betting-value">500</span><span class="currency">&dollar;</span></div>
+	<div class="betting-option" onclick="bet(1000);"><span class="betting-value">1000</span><span class="currency">&dollar;</span></div>
+	<div class="betting-option" onclick="bet(5000);"><span class="betting-value">5000</span><span class="currency">&dollar;</span></div>
+  </div>
+
+  <div class="center">
+    <div id="log1"></div>
+  </div>
+</div>
+
+<div><div style="text-align: left;display: inline-block;width: 49.2%;font-size: 17px;">Money: <span id="tablemoney">0</span><span class="currency">&dollar;</span></div> <div style="text-align: right;display: inline-block;width: 49.2%;font-size: 17px;">Score: <span id="playerscore">0</span></div></div>
+<div class="div_split"></div>
+
+<div class="hand">
+  <button class="btn card card-player" id="rockbtn" onclick="selectCard('rock');"><i class="fa fa-hand-rock-o"></i><br /> Rock</button>
+  <button class="btn card card-player" id="paperbtn" onclick="selectCard('paper');"><i class="fa fa-hand-paper-o"></i><br /> Paper</button>
+  <button class="btn card card-player" id="scissorsbtn" onclick="selectCard('scissors');"><i class="fa fa-hand-scissors-o"></i><br />Scissors</button>
+</div>
+</div>
+
+<div id="statsscreen" class="statsscreen">
+<h2 class="title"><i class="fa fa-bar-chart fa-fw"></i> Statistics</h2>
+<div class="div_split div_split-title"></div>
+
+<div class="stats-category">
+  <h3 class="subtitle"><i class="fa fa-gamepad fa-fw"></i> Games</h3>
+  <p>Games Won: <span id="gameswon">0</span></p>
+  <p>Best of 1 Games Won: <span id="bo1gameswon">0</span></p>
+  <p>Best of 3 Games Won: <span id="bo3gameswon">0</span></p>
+  <p>Best of 5 Games Won: <span id="bo5gameswon">0</span></p>
+  <p>Games Lost: <span id="gameslost">0</span></p>
+  <p>Games Forfeited: <span id="gamesforfeited">0</span></p>
+  <p>Winrate: <span id="gameswinrate">0</span>&percnt;</p>
+</div>
+
+<div class="stats-category">
+  <h3 class="subtitle"><i class="fa fa-circle-o fa-fw"></i> Rounds</h3>
+  <p>Rounds Won: <span id="roundswon">0</span></p>
+  <p>Rounds Won With Rock: <span id="roundswonrock">0</span></p>
+  <p>Rounds Won With Paper: <span id="roundswonpaper">0</span></p>
+  <p>Rounds Won With Scissors: <span id="roundswonscissors">0</span></p>
+  <p>Rounds Won in Free Play: <span id="roundswonfp">0</span></p>
+  <p>Rounds Drawed: <span id="roundsdrawed">0</span></p>
+  <p>Rounds Lost: <span id="roundslost">0</span></p>
+</div>
+
+<div class="stats-category">
+  <h3 class="subtitle"><i class="fa fa-money fa-fw"></i> Money</h3>
+  <p>Money: <span id="money">0</span><span class="currency">&dollar;</span></p>
+  <p>Money Won: <span class="positive"><span id="moneywon">0</span><span class="currency">&dollar;</span></span></p>
+  <p>Rewards: <span class="positive"><span id="moneyachivs">0</span><span class="currency">&dollar;</span></span></p>
+  <p>Money Lost: <span class="negative"><span id="moneylost">0</span><span class="currency">&dollar;</span></span></p>
+  <p>Money Balance: <span id="moneybalancecontainer"><span id="moneybalance">0</span><span class="currency">&dollar;</span></span></p>
+  <p>Bankrupt: <span id="bankrupt">0</span></p>
+  <p>TEST</p>
+</div>
+
+<div>
+  <div onclick="changePanel('mainscreen');" style="font-size: 12px;" class="submenu-option"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
+</div>
+</div>
+
+<div id="achievementsscreen" class="achievementsscreen smaller-font">
+<h2 class="title"><i class="fa fa-trophy fa-fw"></i> Achievements (<span id="achivscompleted">0</span>/<span id="achivstotal">0</span>)</h2>
+<div class="div_split div_split-title"></div>
+
+<div style="height: 250px;overflow: auto;">
+
+<div class="achievement achievement-locked">
+  <i class="fa fa-remove fa-fw negative achievement-icon"></i>
+  <div class="achievement-details">
+  <div><div class="achievement-details-left">Win 100 Rounds with Rock</div><div class="achievement-details-right"><span class="achievement-reward"></span><span class="currency">&dollar;</span></div></div>
+  <div><div class="achievement-details-left small-font"><span class="achievement-progress">0</span>/<span class="achievement-progress-max">100</span></div><div class="achievement-unlock-date achievement-details-right small-font"></div></div>
+  </div>
+</div>
+
+<div class="div_split"></div>
+
+<div class="achievement achievement-locked">
+  <i class="fa fa-remove fa-fw negative achievement-icon"></i>
+  <div class="achievement-details">
+  <div><div class="achievement-details-left">Win 100 Rounds with Paper</div><div class="achievement-unlock-date achievement-details-right small-font"></div></div>
+  <div><div class="achievement-details-left small-font"><span class="achievement-progress">0</span>/<span class="achievement-progress-max">100</span></div><div class="achievement-details-right"><span class="achievement-reward"></span><span class="currency">&dollar;</span></div></div>
+  </div>
+</div>
+
+<div class="div_split"></div>
+
+<div class="achievement achievement-locked">
+  <i class="fa fa-remove fa-fw negative achievement-icon"></i>
+  <div class="achievement-details">
+  <div><div class="achievement-details-left">Win 100 Rounds with Scissors</div><div class="achievement-unlock-date achievement-details-right small-font"></div></div>
+  <div><div class="achievement-details-left small-font"><span class="achievement-progress">0</span>/<span class="achievement-progress-max">100</span></div><div class="achievement-details-right"><span class="achievement-reward"></span><span class="currency">&dollar;</span></div></div>
+  </div>
+</div>
+
+<div class="div_split"></div>
+
+<div class="achievement achievement-locked">
+  <i class="fa fa-remove fa-fw negative achievement-icon"></i>
+  <div class="achievement-details">
+  <div><div class="achievement-details-left">Win 200 Games</div><div class="achievement-unlock-date achievement-details-right small-font"></div></div>
+  <div><div class="achievement-details-left small-font"><span class="achievement-progress">0</span>/<span class="achievement-progress-max">200</span></div><div class="achievement-details-right"><span class="achievement-reward"></span><span class="currency">&dollar;</span></div></div>
+  </div>
+</div>
+
+<div class="div_split"></div>
+
+<div class="achievement achievement-locked" style="text-align: left;">
+  <i class="fa fa-remove fa-fw negative achievement-icon"></i>
+  <div style="display: inline-block">
+  <div>Lose 100 Games</div>
+  <div>0/100</div>
+  </div>
+</div>
+
+<div class="div_split"></div>
+
+<div class="achievement achievement-locked" style="text-align: left;">
+  <i class="fa fa-remove fa-fw negative achievement-icon"></i>
+  <div style="display: inline-block">
+  <div>Lose 1000<span class="currency">&dollar;</span></div>
+  <div>0<span class="currency">&dollar;</span>/1000<span class="currency">&dollar;</span></div>
+  </div>
+</div>
+
+<div class="div_split"></div>
+
+</div>
+
+<div>
+  <div onclick="changePanel('mainscreen');" style="font-size: 12px;" class="submenu-option"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
+</div>
+</div>
+
+<div id="optionsscreen" class="optionsscreen">
+<h2 class="title"><i class="fa fa-cog fa-fw"></i> Options</h2>
+<div class="div_split div_split-title"></div>
+
+<div>
+  <h3 class="subtitle">Currency</h3>
+  <div onchange="setCurrency();">
+	<label for="options-currency">Symbol:</label>
+	<input type="radio" name="options-currency" value="&dollar;">Dollar (&dollar;)</input>
+	<input type="radio" name="options-currency" value="&euro;">Euro (&euro;)</input>
+	<input type="radio" name="options-currency" value="&#8356;">Pound (&#8356;)</input>
+	<input type="radio" name="options-currency" value="&yen;">Yen (&yen;)</input>
+	<input type="radio" name="options-currency" value=" lei">Lei (lei)</input>
+  </div>
+
+  <div onchange="setDelimiter();">
+    <label for="options-delimiter">Delimiter:</label>
+	<input type="radio" name="options-delimiter" value="&#8239;">Space (1&#8239;000<span class="currency">$</span>)</input>
+	<input type="radio" name="options-delimiter" value=".">Dot (1.000<span class="currency">$</span>)</input>
+	<input type="radio" name="options-delimiter" value="&comma;">Comma (1&comma;000<span class="currency">$</span>)</input>
+	<input type="radio" name="options-delimiter" value="">None (1000<span class="currency">$</span>)</input>
+  </div>
+</div>
+
+<div>
+  <h3 class="subtitle">Sound</h3>
+  <div>
+    <div style="display: inline-block;margin-right: 5px;">
+      Ambient: <span onclick="changeSoundState();"><i id="sound-ambient-icon" class="fa fa-volume-up fa-fw"></i></span>
+    </div>
+    <div style="display: inline-block;margin-left: 5px;">
+      Volume: 80%
+    </div>
+  </div>
+
+  <div>
+    <div style="display: inline-block;margin-right: 5px;">
+      Effects: <i id="sound-effects-icon" class="fa fa-volume-up fa-fw"></i>
+    </div>
+    <div style="display: inline-block;margin-left: 5px;">
+      Volume: 80%
+    </div>
+  </div>
+</div>
+
+<div>
+  <h3 class="subtitle">Saves</h3>
+  <div>
+    <textarea onclick=""></textarea> <br />
+    <button>Import/Export</button>
+  </div>
+
+  <div onclick="deleteSave();" style="color: red;">Reset profile</div>
+</div>
+
+<div>
+  <div onclick="changePanel('mainscreen');" style="font-size: 12px;" class="submenu-option"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
+</div>
+</div>
+
+<div id="unlockedachiv" class="unlockedachiv">
+  <div style="float: left;height: 100%">
+    <i class="fa fa-unlock-alt fa-fw positive" style="font-size: 28px"></i>
+  </div>
+  <div style="float: left">
+    <div style="font-size: 15px;">Achievement Unlocked!</div>
+    <div id="unlockedachiv-name"></div>
+  </div>
+</div>
+
+</div>
+
+<audio id="sound-ambient" autoplay="autoplay" loop="loop">
+  <source src="sounds/02_elevator.mp3" type="audio/mpeg">
+</audio>
+
+<footer>
+<p>Back to main page</p>
+</footer>
+
+</body>
+
+</html>
