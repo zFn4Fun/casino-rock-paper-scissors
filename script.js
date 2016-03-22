@@ -170,7 +170,7 @@ var preferences = {
 document.addEventListener("DOMContentLoaded", function() {
 	load();
 	// I could probably move all 3 of those into the load function, since
-	// it only runs once when the DOM loaded.
+	// they only run once, when the DOM loaded.
 	tickCurrencyRadio();
 	tickDelimiterRadio();
 	updateAchivsPage();
@@ -656,15 +656,16 @@ function tickDelimiterRadio() {
 // SOUND
 
 // TODO: Improve this by also changing visually if the sound is on or off.
-function changeSoundState() {
-	var amb = document.getElementById("sound-ambient");
-	if (preferences.ambientMuted) {
-		preferences.ambientMuted = false;
-	} else {
-		preferences.ambientMuted = true;
-	}
-	amb.muted = preferences.ambientMuted;
-	console.log("Ambient is muted? " + amb.muted);
+function changeSoundState(sound) {
+    if (sound === "music") {
+        var amb = document.getElementById("sound-ambient");
+    	if (preferences.ambientMuted) preferences.ambientMuted = false;
+    	else preferences.ambientMuted = true;
+    	amb.muted = preferences.ambientMuted;
+    } else if (sound === "effects") {
+        if (preferences.effectsMuted) preferences.effectsMuted = false;
+        else preferences.effectsMuted = true;
+    }
     updateSoundIcons();
 	save();
 }
@@ -783,15 +784,15 @@ function updateAchivsPage() {
 // Shows if the sound is muted in the options screen.
 function updateSoundIcons() {
     var ambIco = document.getElementById("sound-ambient-icon");
-    var efxIco = document.getElementById("sound-effects-icon");
+    var sfxIco = document.getElementById("sound-effects-icon");
     var unmuted = "fa fa-volume-up fa-fw";
     var muted = "fa fa-volume-down fa-fw";
 
     if (preferences.ambientMuted) ambIco.className = muted;
     else ambIco.className = unmuted;
 
-    if (preferences.effectsMuted) efxIco.className = muted;
-    else efxIco.className = unmuted;
+    if (preferences.effectsMuted) sfxIco.className = muted;
+    else sfxIco.className = unmuted;
 }
 
 // Updates the currency symbol based on the one selected by the player in Options.
@@ -807,7 +808,7 @@ function fadeOut(el){
   el.style.opacity = 1;
 
   (function fade() {
-    if ((el.style.opacity -= .03) < 0) {
+    if ((el.style.opacity -= 0.03) < 0) {
       el.style.display = "none";
     } else {
       requestAnimationFrame(fade);
@@ -822,23 +823,15 @@ function fadeIn(el, display){
 
   (function fade() {
     var val = parseFloat(el.style.opacity);
-    if (!((val += .1) > 1)) {
+    if (!((val += 0.1) > 1)) {
       el.style.opacity = val;
       requestAnimationFrame(fade);
     }
   })();
 }
 
-function test(number) {
-	if (number.toString().length > 3) {
-		number.toString()[2].join(".");
-		console.log(number.toString()[2]);
-		return number;
-	}
-}
-
 // TODO: Change this to fit my needs.
-function prettify(input){
+function prettify(input) {
 	var output;
 	if (preferences.delimiter === "") {
 		output = input;

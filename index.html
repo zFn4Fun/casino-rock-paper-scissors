@@ -466,7 +466,7 @@ footer p {
 	<input type="radio" name="options-currency" value="&euro;">Euro (&euro;)</input>
 	<input type="radio" name="options-currency" value="&#8356;">Pound (&#8356;)</input>
 	<input type="radio" name="options-currency" value="&yen;">Yen (&yen;)</input>
-	<input type="radio" name="options-currency" value=" lei">Lei (lei)</input>
+	<input type="radio" name="options-currency" value=" RON">Leu (RON)</input>
   </div>
 
   <div onchange="setDelimiter();">
@@ -482,7 +482,7 @@ footer p {
   <h3 class="subtitle">Sound</h3>
   <div>
     <div style="display: inline-block;margin-right: 5px;">
-      Ambient: <span onclick="changeSoundState();"><i id="sound-ambient-icon" class="fa fa-volume-up fa-fw"></i></span>
+      Music: <i id="sound-ambient-icon" class="fa fa-volume-up fa-fw" onclick="changeSoundState('music');"></i>
     </div>
     <div style="display: inline-block;margin-left: 5px;">
       Volume: 80%
@@ -491,7 +491,7 @@ footer p {
 
   <div>
     <div style="display: inline-block;margin-right: 5px;">
-      Effects: <i id="sound-effects-icon" class="fa fa-volume-up fa-fw"></i>
+      Effects: <i id="sound-effects-icon" class="fa fa-volume-up fa-fw" onclick="changeSoundState('effects');"></i>
     </div>
     <div style="display: inline-block;margin-left: 5px;">
       Volume: 80%
