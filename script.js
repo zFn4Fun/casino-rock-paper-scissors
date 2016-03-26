@@ -786,7 +786,7 @@ function updateSoundIcons() {
     var ambIco = document.getElementById("sound-ambient-icon");
     var sfxIco = document.getElementById("sound-effects-icon");
     var unmuted = "fa fa-volume-up fa-fw";
-    var muted = "fa fa-volume-down fa-fw";
+    var muted = "fa fa-volume-off fa-fw";
 
     if (preferences.ambientMuted) ambIco.className = muted;
     else ambIco.className = unmuted;
