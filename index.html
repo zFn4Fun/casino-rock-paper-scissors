@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<div id="content" class="center">
+<div class="center wrapper">
 <div id="mainscreen" class="mainscreen">
 <h1 class="title">Casino Rock Paper Scissors <i class="fa fa-hand-scissors-o"></i></h1>
 <div class="div_split div_split-title"></div>
@@ -212,10 +212,12 @@
   <h3 class="subtitle">Sound</h3>
   <div>
     <div style="display: inline-block;margin-right: 5px;">
-      Music: <i id="sound-ambient-icon" class="fa fa-volume-up fa-fw" onclick="changeSoundState('music');"></i>
+      Music: <i id="sound-music-icon" class="fa fa-volume-up fa-fw" onclick="changeSoundState('music');"></i>
     </div>
     <div style="display: inline-block;margin-left: 5px;">
-      Volume: 80%
+      <button onclick="changeSoundVolume('music', 'inc')"><i class="fa fa-arrow-up"></i></button>
+      Volume: <span id="volume-music">80</span>%
+      <button onclick="changeSoundVolume('music', 'dec')"><i class="fa fa-arrow-down"></i></button>
     </div>
   </div>
 
@@ -224,7 +226,9 @@
       Effects: <i id="sound-effects-icon" class="fa fa-volume-up fa-fw" onclick="changeSoundState('effects');"></i>
     </div>
     <div style="display: inline-block;margin-left: 5px;">
-      Volume: 80%
+      <button onclick="changeSoundVolume('effects', 'inc')"><i class="fa fa-arrow-up"></i></button>
+      Volume: <span id="volume-sfx">80</span>%
+      <button onclick="changeSoundVolume('effects', 'dec')"><i class="fa fa-arrow-down"></i></button>
     </div>
   </div>
 </div>
@@ -257,7 +261,7 @@
 <noscript>Please enable JavaScript.</noscript>
 </div>
 
-<audio id="sound-ambient" autoplay="autoplay" loop="loop">
+<audio id="sound-music" autoplay="autoplay" loop="loop">
   <source src="sounds/02_elevator.mp3" type="audio/mpeg">
 </audio>
 

@@ -159,9 +159,8 @@ var achivs = [
 var preferences = {
   currency: "$",
   delimiter: ".",
-  // TODO: Change ambient to music.
-  ambientMuted: false,
-  ambientVolume: 0.8,
+  musicMuted: false,
+  musicVolume: 0.8,
   effectsMuted: false,
   effectsVolume: 0.8
 };
@@ -174,8 +173,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	tickCurrencyRadio();
 	tickDelimiterRadio();
 	updateAchivsPage();
-	document.getElementById("sound-ambient").muted = preferences.ambientMuted;
+	document.getElementById("sound-music").muted = preferences.musicMuted;
+    document.getElementById("sound-music").volume = preferences.musicVolume;
     updateSoundIcons();
+    updateSoundVolume();
 });
 
 function play(num) {
@@ -658,10 +659,10 @@ function tickDelimiterRadio() {
 
 function changeSoundState(sound) {
     if (sound === "music") {
-        var amb = document.getElementById("sound-ambient");
-    	if (preferences.ambientMuted) preferences.ambientMuted = false;
-    	else preferences.ambientMuted = true;
-    	amb.muted = preferences.ambientMuted;
+        var music = document.getElementById("sound-music");
+    	if (preferences.musicMuted) preferences.musicMuted = false;
+    	else preferences.musicMuted = true;
+    	music.muted = preferences.musicMuted;
     } else if (sound === "effects") {
         if (preferences.effectsMuted) preferences.effectsMuted = false;
         else preferences.effectsMuted = true;
@@ -670,11 +671,27 @@ function changeSoundState(sound) {
 	save();
 }
 
-// TODO: Make a use out of this.
+// Changes the volume of sounds.
 function changeSoundVolume(sound, type) {
-	var amb = document.getElementById("sound-ambient");
-
-	amb.volume = preferences.ambientVolume;
+	var music = document.getElementById("sound-music");
+    if (sound === "music") {
+        if (type === "inc" && preferences.musicVolume < 1) {
+            preferences.musicVolume += 0.1;
+        }
+        if (type === "dec" && preferences.musicVolume > 0.1) {
+            preferences.musicVolume -= 0.1;
+        }
+        music.volume = preferences.musicVolume;
+    } else if (sound === "effects") {
+        if (type === "inc" && preferences.effectsVolume < 1) {
+            preferences.effectsVolume += 0.1;
+        }
+        if (type === "dec" && preferences.effectsVolume > 0.1) {
+            preferences.effectsVolume -= 0.1;
+        }
+    }
+    updateSoundVolume();
+    save();
 }
 
 function playSound(url, volume) {
@@ -789,16 +806,21 @@ function updateAchivsPage() {
 
 // Shows if the sound/effects is muted in the options screen.
 function updateSoundIcons() {
-    var ambIco = document.getElementById("sound-ambient-icon");
+    var musicIco = document.getElementById("sound-music-icon");
     var sfxIco = document.getElementById("sound-effects-icon");
     var unmuted = "fa fa-volume-up fa-fw";
     var muted = "fa fa-volume-off fa-fw";
 
-    if (preferences.ambientMuted) ambIco.className = muted;
-    else ambIco.className = unmuted;
+    if (preferences.musicMuted) musicIco.className = muted;
+    else musicIco.className = unmuted;
 
     if (preferences.effectsMuted) sfxIco.className = muted;
     else sfxIco.className = unmuted;
+}
+
+function updateSoundVolume() {
+  document.getElementById("volume-music").innerHTML = Math.floor(preferences.musicVolume * 100);
+  document.getElementById("volume-sfx").innerHTML = Math.floor(preferences.effectsVolume * 100);
 }
 
 // Updates the currency symbol based on the one selected by the player in Options.
