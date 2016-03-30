@@ -170,7 +170,7 @@ var preferences = {
 document.addEventListener("DOMContentLoaded", function() {
 	load();
 	// I could probably move all 3 of those into the load function, since
-	// they only run once, when the DOM loaded.
+	// they only run once, when the DOM is loaded.
 	tickCurrencyRadio();
 	tickDelimiterRadio();
 	updateAchivsPage();
@@ -535,10 +535,11 @@ function deleteSave() {
 		  roundsWonRock: 0,
 		  roundsWonPaper: 0,
 		  roundsWonScissors: 0,
+          roundsWonFP: 0,
 		  roundsLost: 0,
 		  roundsDrawed: 0,
 		  bankrupt: 0
-		}
+      };
 	}
 }
 
@@ -704,21 +705,21 @@ function updateTableStats() {
 // Updates the numbers in the statsscreen div.
 function updateStatsPage() {
 	// Games Stats
-	document.getElementById("gameswon").innerHTML = stats.gamesWon;
-	document.getElementById("bo1gameswon").innerHTML = stats.gamesWonBo1;
-	document.getElementById("bo3gameswon").innerHTML = stats.gamesWonBo3;
-	document.getElementById("bo5gameswon").innerHTML = stats.gamesWonBo5;
-	document.getElementById("gameslost").innerHTML = stats.gamesLost;
-	document.getElementById("gamesforfeited").innerHTML = stats.gamesForfeited;
+	document.getElementById("gameswon").innerHTML = prettify(stats.gamesWon);
+	document.getElementById("bo1gameswon").innerHTML = prettify(stats.gamesWonBo1);
+	document.getElementById("bo3gameswon").innerHTML = prettify(stats.gamesWonBo3);
+	document.getElementById("bo5gameswon").innerHTML = prettify(stats.gamesWonBo5);
+	document.getElementById("gameslost").innerHTML = prettify(stats.gamesLost);
+	document.getElementById("gamesforfeited").innerHTML = prettify(stats.gamesForfeited);
 	document.getElementById("gameswinrate").innerHTML = getPercent(stats.gamesWon, stats.gamesWon + stats.gamesLost + stats.gamesForfeited);
 	// Rounds Stats
-	document.getElementById("roundswon").innerHTML = stats.roundsWon;
-	document.getElementById("roundswonrock").innerHTML = stats.roundsWonRock;
-	document.getElementById("roundswonpaper").innerHTML = stats.roundsWonPaper;
-	document.getElementById("roundswonscissors").innerHTML = stats.roundsWonScissors;
-	document.getElementById("roundswonfp").innerHTML = stats.roundsWonFP;
-	document.getElementById("roundsdrawed").innerHTML = stats.roundsDrawed;
-	document.getElementById("roundslost").innerHTML = stats.roundsLost;
+	document.getElementById("roundswon").innerHTML = prettify(stats.roundsWon);
+	document.getElementById("roundswonrock").innerHTML = prettify(stats.roundsWonRock);
+	document.getElementById("roundswonpaper").innerHTML = prettify(stats.roundsWonPaper);
+	document.getElementById("roundswonscissors").innerHTML = prettify(stats.roundsWonScissors);
+	document.getElementById("roundswonfp").innerHTML = prettify(stats.roundsWonFP);
+	document.getElementById("roundsdrawed").innerHTML = prettify(stats.roundsDrawed);
+	document.getElementById("roundslost").innerHTML = prettify(stats.roundsLost);
 	// Money Stats
 	document.getElementById("money").innerHTML = prettify(stats.money);
 	document.getElementById("moneywon").innerHTML = prettify(stats.moneyWon);
@@ -728,6 +729,12 @@ function updateStatsPage() {
 	document.getElementById("bankrupt").innerHTML = stats.bankrupt;
 
 	// TODO: I didn't declare a var for moneybalance and his container, and I should.
+    // FIXME: Money Balance doesn't get colored anymore because after going
+    // through the prettify function, it gets changed from number to string and
+    // string > 0 or string < 1 will always be false.
+    // This can be fixed by doing the calculation again, instead of using
+    // innerHTML:
+    // if (stats.moneyWon + stats.moneyAchivs - stats.moneyLost < 0)
 	if (document.getElementById("moneybalance").innerHTML < 0) {
 		moneybalancecontainer.className = "negative";
 	} else {
@@ -834,11 +841,10 @@ function prettify(input) {
 	if (preferences.delimiter === "") {
 		return input;
 	} else {
-        var output;
+        var output = input.toString();
         var characteristic = ""; //the bit that comes before the decimal point
         var mantissa = ""; //the bit that comes afterwards
         var digitCount = 0;
-		output = input.toString();
 
 		//first split the string on the decimal point, and assign to the characteristic and mantissa
 		var parts = output.split('.');
@@ -846,12 +852,12 @@ function prettify(input) {
 
 		//then insert the commas in the characteristic
 		var charArray = parts[0].split(""); //breaks it into an array
-		for (var i=charArray.length; i>0; i--){ //counting backwards through the array
+		for (var i=charArray.length; i>0; i--) { //counting backwards through the array
 			characteristic = charArray[i-1] + characteristic; //add the array item at the front of the string
 			digitCount++;
 			// FIXME: Money Balance: -.324.573.234€
 			// TODO: If the first digit is the minus sign, don't count it.
-			if (digitCount == 3 && i!=1){ //once every three digits (but not at the head of the number)
+			if (digitCount == 3 && i != 1 && i != "-") { //once every three digits (but not at the head of the number)
 				characteristic = preferences.delimiter + characteristic; //add the delimiter at the front of the string
 				digitCount = 0;
 			}
