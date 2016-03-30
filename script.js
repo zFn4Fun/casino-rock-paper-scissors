@@ -655,7 +655,6 @@ function tickDelimiterRadio() {
 
 // SOUND
 
-// TODO: Improve this by also changing visually if the sound is on or off.
 function changeSoundState(sound) {
     if (sound === "music") {
         var amb = document.getElementById("sound-ambient");
@@ -781,7 +780,7 @@ function updateAchivsPage() {
 	document.getElementById("achivscompleted").innerHTML = achivsCompleted;
 }
 
-// Shows if the sound is muted in the options screen.
+// Shows if the sound/effects is muted in the options screen.
 function updateSoundIcons() {
     var ambIco = document.getElementById("sound-ambient-icon");
     var sfxIco = document.getElementById("sound-effects-icon");
@@ -804,7 +803,7 @@ function updateCurrency() {
 }
 
 // fade out
-function fadeOut(el){
+function fadeOut(el) {
   el.style.opacity = 1;
 
   (function fade() {
@@ -817,7 +816,7 @@ function fadeOut(el){
 }
 
 // fade in
-function fadeIn(el, display){
+function fadeIn(el, display) {
   el.style.opacity = 0;
   el.style.display = display || "inline-block";
 
@@ -832,10 +831,10 @@ function fadeIn(el, display){
 
 // TODO: Change this to fit my needs.
 function prettify(input) {
-	var output;
 	if (preferences.delimiter === "") {
-		output = input;
+		return input;
 	} else {
+        var output;
         var characteristic = ""; //the bit that comes before the decimal point
         var mantissa = ""; //the bit that comes afterwards
         var digitCount = 0;
@@ -858,6 +857,6 @@ function prettify(input) {
 			}
 		}
 		output = characteristic + mantissa; //reassemble the number
+        return output;
 	}
-	return output;
 }

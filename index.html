@@ -8,17 +8,18 @@
   <link href="default.css" rel="stylesheet" />
   <link href="font-awesome.min.css" rel="stylesheet" />
   <link href="animate.css" rel="stylesheet" />
-  <script src="script.js"></script>
   <style>
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
+
 body {
   font-family: "Open Sans", "Helvetica Neue";
   font-size: 20px;
   color: #FFF;
-  background-color: #333;
+  background-color: gray;
   background-image: url(images/bg.png);
   background-size: cover;
   text-align: center;
@@ -61,23 +62,22 @@ body {
 }
 
 #content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   text-align: center;
   border: 1px solid black;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.2);
 }
+
 .mainscreen {
   width: 600px;
   padding: 20px 20px 0 20px;
 }
+
 .menu {
   height: 45px;
   margin-bottom: 4px;
 }
+
 .menu-option {
   display: inline-block;
   margin-left: 5px;
@@ -87,15 +87,18 @@ body {
   border-radius: 5px;
   transition: transform 1s, font-size 1s, color 1s;
 }
+
 .menu-option:hover {
   cursor: pointer;
   color: gray;
   font-size: 23px;
   transform: rotate(7deg);
 }
+
 .menu-option:nth-child(even):hover {
   transform: rotate(-7deg);
 }
+
 .submenu {
 
 }
@@ -106,18 +109,22 @@ body {
   padding-left: 2px;
   transition: color 0.5s, text-decoration 1s;
 }
+
 .submenu-option:hover {
   color: #FFF;
   cursor: pointer;
 }
+
 .gamescreen {
   display: none;
   width: 350px;
   padding: 20px;
 }
+
 .table {
   height: 140px;
 }
+
 .betting-option {
   display: inline-block;
   border: 1px solid gray;
@@ -125,12 +132,15 @@ body {
   padding: 2px;
   background: -moz-linear-gradient(left,green 0, green 50%, green 100%);
 }
+
 .betting-option:hover {
   cursor: pointer;
 }
+
 .hand {
   height: 80px;
 }
+
 .card {
   margin-left: 6px;
   width: 62px;
@@ -142,35 +152,43 @@ body {
   color: AliceBlue;
   transition: color 0.5s;
 }
+
 .card:disabled {
   color: gray;
 }
+
 .card-player:hover,
 .card-active {
   font-size: 14px;
 }
+
 .card i {
   font-size: 40px;
 }
+
 .card-player:hover i,
 .card-active i {
   font-size: 43px;
 }
+
 .statsscreen {
   display: none;
   width: 600px;
   padding: 20px 20px 0 20px;
 }
+
 .statsscreen p {
   margin: 0;
   font-size: 15px;
   text-align: left;
 }
+
 .stats-category {
   display: inline-block;
   height: 100%;
   padding: 0 6px;
 }
+
 .achievementsscreen {
   display: none;
   width: 600px;
@@ -215,6 +233,7 @@ body {
   width: 600px;
   padding: 20px 20px 0 20px;
 }
+
 .unlockedachiv {
   display: none;
   position: fixed;
@@ -230,38 +249,6 @@ body {
   color: black;
 }
 
-footer {
-  background-color: #000;
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-  height: 35px;
-  margin-bottom: 10px;
-  width: 100%;
-  z-index: 99;
-  opacity: 0.7;
-  padding-top: 10px;
-  font-size: 16px;
-}
-footer p {
-  margin: 0;
-}
-@media (max-width: 768px) {
-  footer {
-    font-size: 14.4px;
-	height: 25px;
-	padding-top: 5px;
-	margin-bottom: 5px;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-    footer {
-    font-size: 15px;
-	height: 28px;
-	padding-top: 6px;
-	margin-bottom: 6px;
-  }
-}
 .div_split {
     border: none;
     margin-top: 10px;
@@ -274,6 +261,7 @@ footer p {
 	background: -o-linear-gradient(left,rgba(52,152,219,0) 0,rgba(52,152,219,.75) 50%,rgba(52,152,219,0) 100%);
 	background: linear-gradient(left,rgba(52,152,219,0) 0,rgba(52,152,219,.75) 50%,rgba(52,152,219,0) 100%)
 }
+
 .div_split-title {
   margin-bottom: 28px;
 }
@@ -281,7 +269,7 @@ footer p {
 </head>
 
 <body>
-<div id="content">
+<div id="content" class="center">
 <div id="mainscreen" class="mainscreen">
 <h1 class="title">Casino Rock Paper Scissors <i class="fa fa-hand-scissors-o"></i></h1>
 <div class="div_split div_split-title"></div>
@@ -524,16 +512,14 @@ footer p {
   </div>
 </div>
 
+<noscript>Please enable JavaScript.</noscript>
+
 </div>
 
 <audio id="sound-ambient" autoplay="autoplay" loop="loop">
   <source src="sounds/02_elevator.mp3" type="audio/mpeg">
 </audio>
 
-<footer>
-<p>Back to main page</p>
-</footer>
-
+<script src="script.js"></script>
 </body>
-
 </html>
