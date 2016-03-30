@@ -24,12 +24,12 @@
 </div>
 
 <div class="submenu">
-  <div class="submenu-option" onclick="changePanel('statsscreen');"><i class="fa fa-bar-chart fa-fw"></i> Stats</div>
-  <div class="submenu-option" onclick="changePanel('achievementsscreen');"><i class="fa fa-trophy fa-fw"></i> Achievements</div>
-  <div class="submenu-option" onclick="changePanel('optionsscreen');"><i class="fa fa-cog fa-fw"></i> Options</div>
+  <div class="submenu-option clickable" onclick="changePanel('statsscreen');"><i class="fa fa-bar-chart fa-fw"></i> Stats</div>
+  <div class="submenu-option clickable" onclick="changePanel('achievementsscreen');"><i class="fa fa-trophy fa-fw"></i> Achievements</div>
+  <div class="submenu-option clickable" onclick="changePanel('optionsscreen');"><i class="fa fa-cog fa-fw"></i> Options</div>
 </div>
 
-<div style="font-size: 12px; color: gray;text-align: right;">v0.1.8</div>
+<div class="text-smallest text-right" style="color: gray;">v0.1.8</div>
 </div>
 
 <div id="gamescreen" class="gamescreen">
@@ -107,11 +107,11 @@
 </div>
 
 <div>
-  <div onclick="changePanel('mainscreen');" style="font-size: 12px;" class="submenu-option"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
+  <div onclick="changePanel('mainscreen');" class="clickable text-smallest"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
 </div>
 </div>
 
-<div id="achievementsscreen" class="achievementsscreen smaller-font">
+<div id="achievementsscreen" class="achievementsscreen text-smaller">
 <h2 class="title"><i class="fa fa-trophy fa-fw"></i> Achievements (<span id="achivscompleted">0</span>/<span id="achivstotal">0</span>)</h2>
 <div class="div_split div_split-title"></div>
 
@@ -157,7 +157,7 @@
 
 <div class="div_split"></div>
 
-<div class="achievement achievement-locked" style="text-align: left;">
+<div class="achievement achievement-locked text-left">
   <i class="fa fa-remove fa-fw negative achievement-icon"></i>
   <div style="display: inline-block">
   <div>Lose 100 Games</div>
@@ -167,7 +167,7 @@
 
 <div class="div_split"></div>
 
-<div class="achievement achievement-locked" style="text-align: left;">
+<div class="achievement achievement-locked text-left">
   <i class="fa fa-remove fa-fw negative achievement-icon"></i>
   <div style="display: inline-block">
   <div>Lose 1000<span class="currency">&dollar;</span></div>
@@ -180,7 +180,7 @@
 </div>
 
 <div>
-  <div onclick="changePanel('mainscreen');" style="font-size: 12px;" class="submenu-option"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
+  <div onclick="changePanel('mainscreen');" class="clickable text-smallest"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
 </div>
 </div>
 
@@ -236,11 +236,11 @@
     <button>Import/Export</button>
   </div>
 
-  <div onclick="deleteSave();" style="color: red;">Reset profile</div>
+  <div onclick="deleteSave();" class="negative">Reset profile</div>
 </div>
 
 <div>
-  <div onclick="changePanel('mainscreen');" style="font-size: 12px;" class="submenu-option"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
+  <div onclick="changePanel('mainscreen');" class="clickable text-smallest"><i class="fa fa-mail-reply fa-fw"></i> Back to Main Menu</div>
 </div>
 </div>
 
@@ -249,7 +249,7 @@
     <i class="fa fa-unlock-alt fa-fw positive" style="font-size: 28px"></i>
   </div>
   <div style="float: left">
-    <div style="font-size: 15px;">Achievement Unlocked!</div>
+    <div class="text-small">Achievement Unlocked!</div>
     <div id="unlockedachiv-name"></div>
   </div>
 </div>

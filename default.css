@@ -38,16 +38,39 @@ body {
   color: red;
 }
 
-.smaller-font {
+.text-smaller {
   font-size: 17px;
 }
 
-.small-font {
+.text-small {
   font-size: 15px;
 }
 
-.smallest-font {
+.text-smallest {
   font-size: 12px;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.clickable {
+  color: gray;
+  display: inline;
+  transition: color 0.5s, text-decoration 1s;
+}
+
+.clickable:hover {
+  color: #FFF;
+  cursor: pointer;
 }
 
 #content {
@@ -93,16 +116,8 @@ body {
 }
 
 .submenu-option {
-  color: gray;
-  display: inline;
   font-size: 14px;
   padding-left: 2px;
-  transition: color 0.5s, text-decoration 1s;
-}
-
-.submenu-option:hover {
-  color: #FFF;
-  cursor: pointer;
 }
 
 .gamescreen {
