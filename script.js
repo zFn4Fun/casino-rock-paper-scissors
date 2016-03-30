@@ -857,7 +857,7 @@ function prettify(input) {
 			digitCount++;
 			// FIXME: Money Balance: -.324.573.234€
 			// TODO: If the first digit is the minus sign, don't count it.
-			if (digitCount == 3 && i != 1 && i != "-") { //once every three digits (but not at the head of the number)
+			if (digitCount == 3 && i != 1) { //once every three digits (but not at the head of the number)
 				characteristic = preferences.delimiter + characteristic; //add the delimiter at the front of the string
 				digitCount = 0;
 			}
