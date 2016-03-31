@@ -320,7 +320,7 @@ function selectCard(option) {
 		if (game.rounds / 2 < game.playerScore) {
 			gameLog("You WON! <br />Score <br /> <span style='float: left'>You: " + game.playerScore +"</span> <span style='float: right;'>AI: " + game.aiScore + "</span><br /> Click to continue...");
 			console.log("------------------");
-			document.getElementById("content").addEventListener("click", resetGame);
+			document.getElementById("wrapper-js").addEventListener("click", resetGame);
 			// Stats
 			stats.gamesWon++;
 			stats.money += game.pot;
@@ -335,7 +335,7 @@ function selectCard(option) {
 		} else if (game.rounds / 2 < game.aiScore) {
 			gameLog("You LOST! <br />Score <br /> <span style='float: left'>You: " + game.playerScore +"</span> <span style='float: right;'>AI: " + game.aiScore + "</span><br /> Click to continue...");
 			console.log("------------------");
-			document.getElementById("content").addEventListener("click", resetGame);
+			document.getElementById("wrapper-js").addEventListener("click", resetGame);
 			// Stats
 			stats.gamesLost++;
 			stats.moneyLost += game.pot / 2;
@@ -377,7 +377,7 @@ function forfeit() {
 
 // Resets the properties of the game object (score, rounds, pot).
 function resetGame() {
-	document.getElementById("content").removeEventListener("click", resetGame);
+	document.getElementById("wrapper-js").removeEventListener("click", resetGame);
 	game.playerScore = 0;
 	game.drawScore = 0;
 	game.aiScore = 0;
