@@ -14,6 +14,10 @@ body {
   text-align: center;
 }
 
+p {
+  margin: 0;
+}
+
 .center {
   position: absolute;
   top: 50%;
@@ -200,6 +204,11 @@ body {
   padding: 20px 20px 0 20px;
 }
 
+.achievements-container {
+  height: 250px;
+  overflow: auto;
+}
+
 .achievement {
   text-align: left;
 }
@@ -218,19 +227,13 @@ body {
   width: 15%;
 }
 
-.achievement-details {
-  display: inline-block;
-  width: 79%;
-}
-
 .achievement-details-left {
   display: inline-block;
-  width: 70%;
+  width: 55%;
 }
 
 .achievement-details-right {
   display: inline-block;
-  width: 30%;
 }
 
 .optionsscreen {

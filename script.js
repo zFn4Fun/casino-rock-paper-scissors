@@ -55,7 +55,7 @@ var achivs = [
 		return stats.roundsWonFP >= 100 ? true : false;
 	},
 	reward: 2000},
-  {name: "Win 500 Rounds",
+  {name: "Win 500 rounds",
 	unlocked: false,
 	unlockDate: "",
 	req() {
@@ -141,7 +141,7 @@ var achivs = [
 		return stats.bankrupt >= 1 ? true : false;
 	},
 	reward: 2000},
-  {name: "Win 30 Free Play Rounds in one session",
+  {name: "Win 30 Free Play rounds in one session",
 	unlocked: false,
 	unlockDate: "",
 	req() {
@@ -768,6 +768,7 @@ function updateAchivsPage() {
 	// This needs to be ran only once, so maybe create a function to
 	// generate the achievement list on the page once, and then just use this
 	// function to update them.
+    var name = document.getElementsByClassName("achievement-name");
 	var reward = document.getElementsByClassName("achievement-reward");
 	var icon = document.getElementsByClassName("achievement-icon");
 	var achivsCompleted = 0;
@@ -777,8 +778,9 @@ function updateAchivsPage() {
 	  stats.gamesWonBo3, stats.gamesWonBo5, stats.gamesWon,
 	  stats.gamesLost];
 
-	// TODO: Change i < 1 to i < achivs.length
-	for (var i = 0; i < 3; i++) {
+	// TODO: Change i < 12 to i < achivs.length
+	for (var i = 0; i < 12; i++) {
+        name[i].innerHTML = achivs[i].name;
 		reward[i].innerHTML = prettify(achivs[i].reward);
 		if (i < progressArr.length) {
 			if (progressArr[i] > maxProgress[i].innerHTML) progress[i].innerHTML = maxProgress[i].innerHTML;
