@@ -174,7 +174,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("sound-music").volume = preferences.musicVolume;
 	tickCurrencyRadio();
 	tickDelimiterRadio();
-	updateAchivsPage();
     updateSoundIcons();
     updateSoundVolume();
 });
@@ -222,7 +221,6 @@ function selectCard(option) {
 	// Randomly selects one of the AI Cards. 1 = Left Card, 2 = Middle Card, 3 = Right Card.
 	var randomNum2 = Math.floor(Math.random() * 3 + 1);
 	var buttons = document.getElementsByClassName("btn");
-	gameLog("");
 
 	if (option === "rock") {
 		if (randomNum === 1) {
@@ -273,7 +271,8 @@ function selectCard(option) {
 		}
 	}, 1000);
 
-	// Adds the text on the AI Card based on randomNum, and then adds the flipping animation, with a 2 seconds delay.
+	// Adds the text on the AI Card based on randomNum, and then adds the
+    // flipping animation, with a 2 seconds delay.
 	setTimeout(function () {
 		// TODO: Maybe have a var that changes based on randomNum.
 		if (randomNum === 1) {
