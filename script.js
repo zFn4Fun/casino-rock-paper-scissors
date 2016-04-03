@@ -168,13 +168,13 @@ var preferences = {
 // Loads the save file and other stuff when the DOM is fully loaded.
 document.addEventListener("DOMContentLoaded", function() {
 	load();
-	// I could probably move all 3 of those into the load function, since
-	// they only run once, when the DOM is loaded.
+    // I could probably move all of these into the load function, since
+    // they only run once, when the DOM is loaded.
+    document.getElementById("sound-music").muted = preferences.musicMuted;
+    document.getElementById("sound-music").volume = preferences.musicVolume;
 	tickCurrencyRadio();
 	tickDelimiterRadio();
 	updateAchivsPage();
-	document.getElementById("sound-music").muted = preferences.musicMuted;
-    document.getElementById("sound-music").volume = preferences.musicVolume;
     updateSoundIcons();
     updateSoundVolume();
 });
@@ -349,6 +349,7 @@ function selectCard(option) {
 		// wont be called even if the hand just resets.
 		// Or maybe just let it stay here and remove the one from the
 		// declareRoundWinner function.
+        // unlockAchiv();
 		save();
 	}
 
@@ -552,7 +553,7 @@ function changePanel(panel) {
 	var achivs = document.getElementById("achievementsscreen");
 	var arr = [main, game, stats, options, achivs];
 	for (var i = 0; i < arr.length; i++) {
-		if (arr[i].style.display != "none") {
+		if (window.getComputedStyle(arr[i], null).getPropertyValue("display") === "inline-block") {
 			fadeOut(arr[i]);
 		}
 	}

@@ -78,6 +78,10 @@ p {
 }
 
 .wrapper {
+/*
+  min-width: 640px;
+  min-height: 210px;
+*/
   text-align: center;
   border: 1px solid black;
   border-radius: 10px;
@@ -85,6 +89,7 @@ p {
 }
 
 .mainscreen {
+  display: inline-block;
   width: 600px;
   padding: 20px 20px 0 20px;
 }
