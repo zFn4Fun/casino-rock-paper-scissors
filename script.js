@@ -866,8 +866,10 @@ function prettify(input) {
 		return input;
 	} else {
         var output = input.toString();
-        var characteristic = ""; //the bit that comes before the decimal point
-        var mantissa = ""; //the bit that comes afterwards
+        // The bit that comes before the decimal point.
+        var characteristic = "";
+        // The bit that comes afterwards.
+        var mantissa = "";
         var digitCount = 0;
 
 		//first split the string on the decimal point, and assign to the characteristic and mantissa
@@ -882,7 +884,8 @@ function prettify(input) {
 			// FIXME: Money Balance: -.324.573.234€
 			// TODO: If the first digit is the minus sign, don't count it.
 			if (digitCount == 3 && i != 1) { //once every three digits (but not at the head of the number)
-				characteristic = preferences.delimiter + characteristic; //add the delimiter at the front of the string
+                // Add the delimiter at the front of the string
+				characteristic = preferences.delimiter + characteristic;
 				digitCount = 0;
 			}
 		}
