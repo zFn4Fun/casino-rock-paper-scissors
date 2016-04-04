@@ -415,6 +415,7 @@ function avoidBankrupcy() {
 	if (stats.money < 10) {
 		stats.bankrupt++;
 		stats.money = 100;
+        //TODO: Have a way to show this to the player, thats not the console.
 		console.log("The casino owner felt bad for you losing all your money, so he gave you 100" + preferences.currency + " back.");
 		save();
 	}
