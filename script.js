@@ -486,7 +486,7 @@ function getDateString() {
 	return month.toString() + "/" + d.getDate().toString() + "/" + d.getFullYear().toString() + " " +  hours + ":" + minutes;
 }
 
-// Returns the percent of val out of max, or 0 if both are 0.
+// Returns the percentage of val out of max, or 0 if both are 0.
 function getPercent(val, max) {
 	if (val === 0 && max === 0) return 0;
 	else if (isNaN(val) || isNaN(max)) return console.log("Both arguments need to be numbers.");
@@ -500,7 +500,7 @@ function save() {
 	console.log("Saved");
 }
 
-// Loads the saved Stats object if it was created by the save function.
+// Loads all the saved objects if they were created by the save function.
 function load() {
 	var savedStats = localStorage.getItem("crps");
 	var savedPreferences = localStorage.getItem("crps2");
@@ -516,8 +516,6 @@ function load() {
 
 // Removes the saved Stats and Achievements objects from localStorage,
 // and resets them to default.
-// Resets the Stats and Achievements objects to default.
-// TODO: Change name to resetProfile or resetSave.
 function deleteSave() {
 	if (confirm("Are you sure? You will lose all the progress made.")) {
 		localStorage.removeItem("crps");
@@ -873,6 +871,7 @@ function prettify(input) {
         // The bit that comes after the decimal point.
         var mantissa = "";
         var digitCount = 0;
+        var num = 0;
 
         // Checks to see if the number is negative or positive.
         if (input > -1) num = 1;
@@ -890,7 +889,7 @@ function prettify(input) {
 			characteristic = charArray[i-1] + characteristic; //add the array item at the front of the string
 			digitCount++;
             // Once every three digits (but not at the head of the number).
-			if (digitCount == 3 && i != num) {
+			if (digitCount === 3 && i !== num) {
                 // Add the delimiter at the front of the string
 				characteristic = preferences.delimiter + characteristic;
 				digitCount = 0;
