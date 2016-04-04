@@ -745,15 +745,11 @@ function updateStatsPage() {
 	document.getElementById("bankrupt").innerHTML = stats.bankrupt;
 
 	// TODO: I didn't declare a var for moneybalance and his container, and I should.
-    // FIXME: Money Balance doesn't get colored anymore because after going
-    // through the prettify function, it gets changed from number to string and
-    // string > 0 or string < 1 will always be false.
-    // This can be fixed by doing the calculation again, instead of using
-    // innerHTML:
-    // if (stats.moneyWon + stats.moneyAchivs - stats.moneyLost < 0)
-	if (document.getElementById("moneybalance").innerHTML < 0) {
+	if (stats.moneyWon + stats.moneyAchivs - stats.moneyLost < 0) {
 		moneybalancecontainer.className = "negative";
-	} else {
+	} else if (stats.moneyWon + stats.moneyAchivs - stats.moneyLost === 0) {
+        moneybalancecontainer.className = "";
+    } else {
 		moneybalancecontainer.className = "positive";
 	}
 }
