@@ -118,14 +118,42 @@ var achivs = [
   // throws an error. It can be fixed by moving preferences before achivs.
   // TODO: Transform name into a method.
   // name: function() return "Win 10000" + preferences.currency;
-  /*
-  {name: "Win " + prettify(10000) + "",
+  {name() {
+      return "Win " + prettify(10000) + preferences.currency;
+  },
 	unlocked: false,
 	unlockDate: "",
 	req() {
 		return stats.moneyWon >= 10000 ? true : false;
 	},
-	reward: 3000}, */
+	reward: 4000},
+  {name() {
+        return "Earn " + prettify(10000) + preferences.currency + " from achievements";
+  },
+    unlocked: false,
+    unlockDate: "",
+    req() {
+        return stats.moneyAchivs >= 10000 ? true : false;
+    },
+    reward: 3000},
+  {name() {
+    return "Lose " + prettify(10000) + preferences.currency;
+  },
+    unlocked: false,
+    unlockDate: "",
+    req() {
+        return stats.moneyLost >= 10000 ? true : false;
+    },
+    reward: 3000},
+  {name() {
+     return "Have " + prettify(10000) + preferences.currency + " on hand";
+  },
+    unlocked: false,
+    unlockDate: "",
+    req() {
+        return stats.money >= 10000 ? true : false;
+    },
+    reward: 3000},
   // Misc achievements.
   {name: "Forfeit A Game",
 	unlocked: false,
@@ -446,7 +474,10 @@ function displayUnlockedAchiv(array) {
 	console.log(array);
 	function display() {
 		console.log(array[count].name);
-		document.getElementById("unlockedachiv-name").innerHTML = array[count].name;
+        // We check to see if the name of the achievement is a Method.
+        if (typeof array[count].name === "function") {
+            document.getElementById("unlockedachiv-name").innerHTML = array[count].name();
+        } else  document.getElementById("unlockedachiv-name").innerHTML = array[count].name;
 		fadeIn(document.getElementById("unlockedachiv"));
 		playSound("sounds/achievement.mp3");
 		setTimeout(function () {
@@ -704,18 +735,12 @@ function playSound(url, volume) {
 
 // UI
 
-// Temporary function. I should not use IDs for this I guess.
-// TODO: Improve updateTableStats.
+// Updates the numbers in the gamescreen div.
 function updateTableStats() {
-	var aiScore = document.getElementById("aiscore");
-	var playerScore = document.getElementById("playerscore");
-	var tableMoney = document.getElementById("tablemoney");
-	var pot = document.getElementById("pot");
-
-	pot.innerHTML = prettify(game.pot);
-	tableMoney.innerHTML = prettify(stats.money);
-	aiScore.innerHTML = game.aiScore;
-	playerScore.innerHTML = game.playerScore;
+	document.getElementById("pot").innerHTML = prettify(game.pot);
+	document.getElementById("tablemoney").innerHTML = prettify(stats.money);
+	document.getElementById("aiscore").innerHTML = game.aiScore;
+	document.getElementById("playerscore").innerHTML = game.playerScore;
 }
 
 // Updates the numbers in the statsscreen div.
@@ -773,9 +798,10 @@ function updateAchivsPage() {
 	  stats.gamesWonBo3, stats.gamesWonBo5, stats.gamesWon,
 	  stats.gamesLost];
 
-	// TODO: Change i < 12 to i < achivs.length
-	for (var i = 0; i < 12; i++) {
-        name[i].innerHTML = achivs[i].name;
+	for (var i = 0; i < achivs.length; i++) {
+        if (typeof achivs[i].name === "function") {
+            name[i].innerHTML = achivs[i].name();
+        } else name[i].innerHTML = achivs[i].name;
 		reward[i].innerHTML = prettify(achivs[i].reward);
 		if (i < progressArr.length) {
 			if (progressArr[i] > maxProgress[i].innerHTML) progress[i].innerHTML = maxProgress[i].innerHTML;
