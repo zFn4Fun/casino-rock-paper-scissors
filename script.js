@@ -527,19 +527,33 @@ function getPercent(val, max) {
 
 // Saves the Stats object to localStorage so it wont be lost between sessions.
 function save() {
+    var achivsArr = [];
+    for (var i = 0; i < achivs.length; i++) {
+        achivsArr.push({unlocked: achivs[i].unlocked, unlockDate: achivs[i].unlockDate});
+    }
 	localStorage.setItem("crps", JSON.stringify(stats));
-	localStorage.setItem("crps2", JSON.stringify(preferences));
+    localStorage.setItem("crps2", JSON.stringify(achivsArr));
+	localStorage.setItem("crps3", JSON.stringify(preferences));
 	console.log("Saved");
 }
 
 // Loads all the saved objects if they were created by the save function.
 function load() {
 	var savedStats = localStorage.getItem("crps");
-	var savedPreferences = localStorage.getItem("crps2");
+    var savedAchivs = localStorage.getItem("crps2");
+	var savedPreferences = localStorage.getItem("crps3");
 	if (savedStats) {
 		stats = JSON.parse(savedStats);
 		console.log("Stats Loaded");
 	}
+    if (savedAchivs) {
+        var achivsArr = JSON.parse(savedAchivs);
+        for (var i = 0; i <achivsArr.length; i++) {
+            achivs[i].unlocked = achivsArr[i].unlocked;
+            achivs[i].unlockDate = achivsArr[i].unlockDate;
+        }
+        console.log("Achievements Loaded");
+    }
 	if (savedPreferences) {
 		preferences = JSON.parse(savedPreferences);
 		console.log("Preferences Loaded");
@@ -548,9 +562,11 @@ function load() {
 
 // Removes the saved Stats and Achievements objects from localStorage,
 // and resets them to default.
+// TODO: Need to reset to default achivs too.
 function deleteSave() {
 	if (confirm("Are you sure? You will lose all the progress made.")) {
 		localStorage.removeItem("crps");
+        localStorage.removeItem("crps2");
 		stats = {
 		  money: 500,
 		  moneyLost: 0,
@@ -794,17 +810,19 @@ function updateAchivsPage() {
 	var achivsCompleted = 0;
 	var progressArr = [stats.roundsWonRock, stats.roundsWonPaper,
 	  stats.roundsWonScissors, stats.roundsWonFP, stats.roundsWon,
-	  stats.roundsDrawed, stats.roundsLost, stats.gamesWonBo1,
+      stats.roundsDrawed, stats.roundsLost, stats.gamesWonBo1,
 	  stats.gamesWonBo3, stats.gamesWonBo5, stats.gamesWon,
-	  stats.gamesLost];
+	  stats.gamesLost, stats.moneyWon, stats.moneyAchivs, stats.moneyLost,
+      stats.money];
 
 	for (var i = 0; i < achivs.length; i++) {
         if (typeof achivs[i].name === "function") {
             name[i].innerHTML = achivs[i].name();
         } else name[i].innerHTML = achivs[i].name;
 		reward[i].innerHTML = prettify(achivs[i].reward);
+
 		if (i < progressArr.length) {
-			if (progressArr[i] > maxProgress[i].innerHTML) progress[i].innerHTML = maxProgress[i].innerHTML;
+			if (progressArr[i] > maxProgress[i].innerHTML) progress[i].innerHTML = prettify(maxProgress[i].innerHTML);
 			else progress[i].innerHTML = prettify(progressArr[i]);
 		}
 
