@@ -860,36 +860,43 @@ function fadeIn(el, display) {
   })();
 }
 
-// TODO: Change this to fit my needs.
+// Adds delimiters to numbers.
 function prettify(input) {
+    // If there is no delimiter, return the input as it is.
 	if (preferences.delimiter === "") {
 		return input;
+    // Otherwise prettify it by adding the delimiters if needed.
 	} else {
         var output = input.toString();
         // The bit that comes before the decimal point.
         var characteristic = "";
-        // The bit that comes afterwards.
+        // The bit that comes after the decimal point.
         var mantissa = "";
         var digitCount = 0;
 
-		//first split the string on the decimal point, and assign to the characteristic and mantissa
-		var parts = output.split('.');
-		if (typeof parts[1] === 'string') var mantissa = '.' + parts[1]; //check it's defined first, and tack a decimal point to the start of it
+        // Checks to see if the number is negative or positive.
+        if (input > -1) num = 1;
+        else num = 2;
 
-		//then insert the commas in the characteristic
-		var charArray = parts[0].split(""); //breaks it into an array
-		for (var i=charArray.length; i>0; i--) { //counting backwards through the array
+		// First split the string on the decimal point, and assign to the
+        // characteristic and mantissa.
+		var parts = output.split('.');
+		if (typeof parts[1] === 'string') mantissa = '.' + parts[1]; //check it's defined first, and tack a decimal point to the start of it
+
+		// Then break the characteristic into an array and insert the
+        // delimiters every 3 characters.
+		var charArray = parts[0].split("");
+		for (var i = charArray.length; i > 0; i--) { //counting backwards through the array
 			characteristic = charArray[i-1] + characteristic; //add the array item at the front of the string
 			digitCount++;
-			// FIXME: Money Balance: -.324.573.234€
-			// TODO: If the first digit is the minus sign, don't count it.
-			if (digitCount == 3 && i != 1) { //once every three digits (but not at the head of the number)
+            // Once every three digits (but not at the head of the number).
+			if (digitCount == 3 && i != num) {
                 // Add the delimiter at the front of the string
 				characteristic = preferences.delimiter + characteristic;
 				digitCount = 0;
 			}
 		}
-		output = characteristic + mantissa; //reassemble the number
-        return output;
+        // Return the reassambled number.
+		return output = characteristic + mantissa; //reassemble the number
 	}
 }
