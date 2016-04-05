@@ -560,13 +560,10 @@ function load() {
 	}
 }
 
-// Removes the saved Stats and Achievements objects from localStorage,
-// and resets them to default.
-// TODO: Need to reset to default achivs too.
+// Resets the values saved in localStorage for the Stats and Achievements
+// objects by reassigning them to their default values.
 function deleteSave() {
 	if (confirm("Are you sure? You will lose all the progress made.")) {
-		localStorage.removeItem("crps");
-        localStorage.removeItem("crps2");
 		stats = {
 		  money: 500,
 		  moneyLost: 0,
@@ -586,7 +583,13 @@ function deleteSave() {
 		  roundsLost: 0,
 		  roundsDrawed: 0,
 		  bankrupt: 0
-      };
+        };
+        // Loops through the Achievements objects and resets it.
+        for (var i = 0; i < achivs.length; i++) {
+            achivs[i].unlocked = false;
+            achivs[i].unlockDate = "";
+        }
+        save();
 	}
 }
 
@@ -785,7 +788,7 @@ function updateStatsPage() {
 	document.getElementById("moneybalance").innerHTML = prettify(stats.moneyWon + stats.moneyAchivs - stats.moneyLost);
 	document.getElementById("bankrupt").innerHTML = stats.bankrupt;
 
-	// TODO: I didn't declare a var for moneybalance and his container, and I should.
+	// TODO: I didn't declare a var for moneybalance container, and I should.
 	if (stats.moneyWon + stats.moneyAchivs - stats.moneyLost < 0) {
 		moneybalancecontainer.className = "negative";
 	} else if (stats.moneyWon + stats.moneyAchivs - stats.moneyLost === 0) {
@@ -820,25 +823,24 @@ function updateAchivsPage() {
             name[i].innerHTML = achivs[i].name();
         } else name[i].innerHTML = achivs[i].name;
 		reward[i].innerHTML = prettify(achivs[i].reward);
+        unlockDate[i].innerHTML = achivs[i].unlockDate;
 
 		if (i < progressArr.length) {
 			if (progressArr[i] > maxProgress[i].innerHTML) progress[i].innerHTML = prettify(maxProgress[i].innerHTML);
 			else progress[i].innerHTML = prettify(progressArr[i]);
 		}
-
+        // If the achievement is unlocked, show it visualy on the achievements
+        // screen.
 		if (achivs[i].unlocked) {
 			achivsCompleted++;
-			achiv[i].className = "achievement achievement-unlocked";
-			unlockDate[i].innerHTML = achivs[i].unlockDate;
 			icon[i].className = "fa fa-check fa-fw achievement-icon positive";
 			icon[i].style.opacity = "1";
+            achiv[i].className = "achievement achievement-unlocked";
+        // Otherwise reset it visualy to the "locked" state.
 		} else {
-			// Add some way to revert an unlocked achievement in case the player
-			// resets his save, or imports one. Otherwise the classes added above
-			// and the unlock date will remain.
-			// icon[i].className = "fa fa-remove fa-fw achievement-icon negative";
-			// achiv[i].className = "achievement achievement-locked";
-			icon[i].style.opacity = "0.4";
+			icon[i].className = "fa fa-remove fa-fw achievement-icon negative";
+            icon[i].style.opacity = "0.4";
+			achiv[i].className = "achievement achievement-locked";
 		}
 	}
 	document.getElementById("achivstotal").innerHTML = achivs.length;
