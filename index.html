@@ -586,8 +586,13 @@
 <div>
   <h3 class="subtitle">Saves</h3>
   <div>
-    <textarea onclick=""></textarea> <br />
-    <button>Import/Export</button>
+    <p>
+      Manualy import or export the save file as text.
+    </p>
+    <textarea id="txt-area" onclick=""></textarea> <br />
+    <button>Export</button>
+    <button onclick="document.getElementById('txt-area').select();document.execCommand('copy');">Copy to Clipboard</button>
+    <button>Import</button>
   </div>
 
   <div onclick="deleteSave();" class="negative">Reset profile</div>

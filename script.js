@@ -1,3 +1,4 @@
+// The "Game" object that resets every new game session.
 var game = {
   rounds: 0,
   playerScore: 0,
@@ -5,6 +6,7 @@ var game = {
   aiScore: 0,
   pot: 0
 };
+// The "Stats" object that holds all the stats.
 var stats = {
   money: 500,
   moneyWon: 0,
@@ -25,6 +27,7 @@ var stats = {
   roundsDrawed: 0,
   bankrupt: 0,
 };
+// The "Achievements" objects that holds all the achievements.
 var achivs = [
   // Rounds related achievements.
   {name: "Win 100 Rounds with Rock",
@@ -184,6 +187,7 @@ var achivs = [
 	},
 	reward: 10000}
 ];
+// The "Preferences" object that holds all the preferences.
 var preferences = {
   currency: "$",
   delimiter: ".",
@@ -207,23 +211,26 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function play(num) {
-	// TODO: Put this inside the game.rounds < 6 if statement, or maybe make
-	// a function for it.
-	var betOpts = document.getElementsByClassName("betting-option");
-	var betVal = document.getElementsByClassName("betting-value");
-	// Disables the betting options that are unrealistic.
-	for (var i = 0; i < betVal.length; i++) {
-		if (stats.money < betVal[i].innerHTML) {
-			betOpts[i].style.display = "none";
-			console.log("Disabled one betting option.");
-		}
-	}
+    // Set the number of max rounds.
 	game.rounds = num;
 	updateTableStats();
 	changePanel("gamescreen");
+    // If the game has less than 6 max rounds, show the betting panel.
 	if (game.rounds < 6) {
+        var betOpts = document.getElementsByClassName("betting-option");
+        var betVal = document.getElementsByClassName("betting-value");
+        // Disables the betting options that are unrealistic by comparing
+        // the players current money value to the betting value inside of every
+        // betting option.
+        for (var i = 0; i < betVal.length; i++) {
+            if (stats.money < betVal[i].innerHTML) {
+                betOpts[i].style.display = "none";
+                console.log("Disabled one betting option.");
+            }
+        }
 		fadeIn(document.getElementById("betting"));
 		disableCards();
+    // Otherwise the game is "Free Play", so hide everything money related.
 	} else {
 		fadeOut(document.getElementById("betting"));
 		gameLog("Select a card.");
@@ -866,7 +873,8 @@ function updateSoundVolume() {
   document.getElementById("volume-sfx").innerHTML = Math.floor(preferences.effectsVolume * 100);
 }
 
-// Updates the currency symbol based on the one selected by the player in Options.
+// Updates the currency symbol everywhere in the html file, based on the one
+// selected by the player in Options.
 function updateCurrency() {
 	var curr = document.getElementsByClassName("currency");
 	for (var i = 0; i < curr.length; i++) {
@@ -939,6 +947,6 @@ function prettify(input) {
 			}
 		}
         // Return the reassambled number.
-		return (output = characteristic + mantissa); //reassemble the number
+		return (output = characteristic + mantissa);
 	}
 }
