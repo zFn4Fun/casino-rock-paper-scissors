@@ -27,7 +27,7 @@ var stats = {
   roundsDrawed: 0,
   bankrupt: 0,
 };
-// The "Achievements" objects that holds all the achievements.
+// The "Achievements" object that holds all the achievements.
 var achivs = [
   // Rounds related achievements.
   {name: "Win 100 Rounds with Rock",
@@ -226,7 +226,7 @@ function play(num) {
             if (stats.money < betVal[i].innerHTML) {
                 betOpts[i].style.display = "none";
                 console.log("Disabled one betting option.");
-            }
+            } else betOpts[i].style.display = "inline-block";
         }
 		fadeIn(document.getElementById("betting"));
 		disableCards();
@@ -607,17 +607,19 @@ function changePanel(panel) {
 	var options = document.getElementById("optionsscreen");
 	var achivs = document.getElementById("achievementsscreen");
 	var arr = [main, game, stats, options, achivs];
+
 	for (var i = 0; i < arr.length; i++) {
 		if (window.getComputedStyle(arr[i], null).getPropertyValue("display") === "inline-block") {
 			fadeOut(arr[i]);
 		}
 	}
-	if (panel === "statsscreen") {
-		updateStatsPage();
-	}
-	if (panel === "achievementsscreen") {
-		updateAchivsPage();
-	}
+
+	if (panel === "statsscreen") updateStatsPage();
+	else if (panel === "achievementsscreen") updateAchivsPage();
+    // TODO: Clear the value of textarea when changing to options screen.
+    // document.getElementById("txt-area").value = "";
+    else if (panel === "optionsscreen");
+
 	setTimeout(function () {
 		fadeIn(document.getElementById(panel));
 	}, 1000);
