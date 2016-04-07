@@ -116,11 +116,9 @@ var achivs = [
 	},
 	reward: 5000},
   // Money related achievements.
-  // FIXME: There seems to be some issues with the currency symbol not displaying.
-  // FIXME: It seems that calling prettify before declaring the preferences var
-  // throws an error. It can be fixed by moving preferences before achivs.
-  // TODO: Transform name into a method.
-  // name: function() return "Win 10000" + preferences.currency;
+  // There was some issues with the name property, since it had to output the
+  // prettified number and the currently selected currency. (Hoisting issue)
+  // I transformed them into methods, instead of properties, as a workaround.
   {name() {
       return "Win " + prettify(10000) + preferences.currency;
   },
@@ -532,6 +530,48 @@ function getPercent(val, max) {
 	else return Math.floor((val / max) * 100);
 }
 
+// Adds delimiters to numbers.
+function prettify(input) {
+    // If there is no delimiter, return the input as it is.
+	if (preferences.delimiter === "") {
+		return input;
+    // Otherwise prettify it by adding the delimiters if needed.
+	} else {
+        var output = input.toString();
+        // The bit that comes before the decimal point.
+        var characteristic = "";
+        // The bit that comes after the decimal point.
+        var mantissa = "";
+        var digitCount = 0;
+        var num = 0;
+
+        // Checks to see if the number is negative or positive.
+        if (input > -1) num = 1;
+        else num = 2;
+
+		// First split the string on the decimal point, and assign to the
+        // characteristic and mantissa.
+		var parts = output.split('.');
+		if (typeof parts[1] === 'string') mantissa = '.' + parts[1]; //check it's defined first, and tack a decimal point to the start of it
+
+		// Then break the characteristic into an array and insert the
+        // delimiters every 3 characters.
+		var charArray = parts[0].split("");
+		for (var i = charArray.length; i > 0; i--) { //counting backwards through the array
+			characteristic = charArray[i-1] + characteristic; //add the array item at the front of the string
+			digitCount++;
+            // Once every three digits (but not at the head of the number).
+			if (digitCount === 3 && i !== num) {
+                // Add the delimiter at the front of the string
+				characteristic = preferences.delimiter + characteristic;
+				digitCount = 0;
+			}
+		}
+        // Return the reassambled number.
+		return (output = characteristic + mantissa);
+	}
+}
+
 // Saves the Stats object to localStorage so it wont be lost between sessions.
 function save() {
     var achivsArr = [];
@@ -909,46 +949,4 @@ function fadeIn(el, display) {
       requestAnimationFrame(fade);
     }
   })();
-}
-
-// Adds delimiters to numbers.
-function prettify(input) {
-    // If there is no delimiter, return the input as it is.
-	if (preferences.delimiter === "") {
-		return input;
-    // Otherwise prettify it by adding the delimiters if needed.
-	} else {
-        var output = input.toString();
-        // The bit that comes before the decimal point.
-        var characteristic = "";
-        // The bit that comes after the decimal point.
-        var mantissa = "";
-        var digitCount = 0;
-        var num = 0;
-
-        // Checks to see if the number is negative or positive.
-        if (input > -1) num = 1;
-        else num = 2;
-
-		// First split the string on the decimal point, and assign to the
-        // characteristic and mantissa.
-		var parts = output.split('.');
-		if (typeof parts[1] === 'string') mantissa = '.' + parts[1]; //check it's defined first, and tack a decimal point to the start of it
-
-		// Then break the characteristic into an array and insert the
-        // delimiters every 3 characters.
-		var charArray = parts[0].split("");
-		for (var i = charArray.length; i > 0; i--) { //counting backwards through the array
-			characteristic = charArray[i-1] + characteristic; //add the array item at the front of the string
-			digitCount++;
-            // Once every three digits (but not at the head of the number).
-			if (digitCount === 3 && i !== num) {
-                // Add the delimiter at the front of the string
-				characteristic = preferences.delimiter + characteristic;
-				digitCount = 0;
-			}
-		}
-        // Return the reassambled number.
-		return (output = characteristic + mantissa);
-	}
 }
