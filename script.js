@@ -156,28 +156,28 @@ var achivs = [
     },
     reward: 3000},
   // Misc achievements.
-  {name: "Forfeit A Game",
+  {name: "I give up!",
 	unlocked: false,
 	unlockDate: "",
 	req() {
 		return stats.gamesForfeited >= 1 ? true : false;
 	},
 	reward: 1000},
-  {name: "Go bankrupt",
+  {name: "Who needs money?",
 	unlocked: false,
 	unlockDate: "",
 	req() {
 		return stats.bankrupt >= 1 ? true : false;
 	},
 	reward: 2000},
-  {name: "Win 30 Free Play rounds in one session",
+  {name: "Free spirit",
 	unlocked: false,
 	unlockDate: "",
 	req() {
 		return game.rounds === Infinity && game.playerScore >= 30 ? true : false;
 	},
 	reward: 5000},
-  {name: "75% Winrate after at least 10 Games Played",
+  {name: "Winning Machine",
 	unlocked: false,
 	unlockDate: "",
 	req() {
@@ -348,45 +348,42 @@ function selectCard(option) {
 		}, 2500);
 	}
 
-	function checkScore() {
-		if (game.rounds / 2 < game.playerScore) {
-			gameLog("You WON! <br />Score <br /> <span style='float: left'>You: " + game.playerScore +"</span> <span style='float: right;'>AI: " + game.aiScore + "</span><br /> Click to continue...");
-			console.log("------------------");
-			document.getElementById("wrapper").addEventListener("click", resetGame);
-			// Stats
-			stats.gamesWon++;
-			stats.money += game.pot;
-			stats.moneyWon += game.pot / 2;
-			if (game.rounds === 1) {
-				stats.gamesWonBo1++;
-			} else if (game.rounds === 3) {
-				stats.gamesWonBo3++;
-			} else if (game.rounds === 5) {
-				stats.gamesWomBo5++;
-			}
-		} else if (game.rounds / 2 < game.aiScore) {
-			gameLog("You LOST! <br />Score <br /> <span style='float: left'>You: " + game.playerScore +"</span> <span style='float: right;'>AI: " + game.aiScore + "</span><br /> Click to continue...");
-			console.log("------------------");
-			document.getElementById("wrapper").addEventListener("click", resetGame);
-			// Stats
-			stats.gamesLost++;
-			stats.moneyLost += game.pot / 2;
-			avoidBankrupcy();
-		} else {
-			setTimeout(resetHand, 1000);
-		}
-		// Called so it will save if the player wins or loses the game.
-		// TODO:
-		// Maybe put it inside the winning and losing condition, so it
-		// wont be called even if the hand just resets.
-		// Or maybe just let it stay here and remove the one from the
-		// declareRoundWinner function.
-        // unlockAchiv();
-		save();
-	}
-
+    // Checks the score to declare a winner.
 	setTimeout(function () {
-		checkScore();
+        if (game.rounds / 2 < game.playerScore) {
+            gameLog("You WON! <br />Score <br /> <span style='float: left'>You: " + game.playerScore +"</span> <span style='float: right;'>AI: " + game.aiScore + "</span><br /> Click to continue...");
+            console.log("------------------");
+            document.getElementById("wrapper").addEventListener("click", resetGame);
+            // Stats
+            stats.gamesWon++;
+            stats.money += game.pot;
+            stats.moneyWon += game.pot / 2;
+            if (game.rounds === 1) {
+                stats.gamesWonBo1++;
+            } else if (game.rounds === 3) {
+                stats.gamesWonBo3++;
+            } else if (game.rounds === 5) {
+                stats.gamesWomBo5++;
+            }
+        } else if (game.rounds / 2 < game.aiScore) {
+            gameLog("You LOST! <br />Score <br /> <span style='float: left'>You: " + game.playerScore +"</span> <span style='float: right;'>AI: " + game.aiScore + "</span><br /> Click to continue...");
+            console.log("------------------");
+            document.getElementById("wrapper").addEventListener("click", resetGame);
+            // Stats
+            stats.gamesLost++;
+            stats.moneyLost += game.pot / 2;
+            avoidBankrupcy();
+        } else {
+            setTimeout(resetHand, 1000);
+        }
+        // Called so it will save if the player wins or loses the game.
+        // TODO:
+        // Maybe put it inside the winning and losing condition, so it
+        // wont be called even if the hand just resets.
+        // Or maybe just let it stay here and remove the one from the
+        // declareRoundWinner function.
+        // unlockAchiv();
+        save();
 	}, 3500);
 }
 
@@ -408,7 +405,7 @@ function forfeit() {
 	}
 }
 
-// Resets the properties of the game object (score, rounds, pot).
+// Resets the properties of the "game" object (score, rounds, pot).
 function resetGame() {
 	document.getElementById("wrapper").removeEventListener("click", resetGame);
 	game.playerScore = 0;
@@ -420,7 +417,7 @@ function resetGame() {
 	setTimeout(resetHand, 1100);
 }
 
-// Resets every card back to the default state.
+// Resets every card back to the default state and clears the game log.
 function resetHand() {
 	var buttons = document.getElementsByClassName("btn");
 	gameLog("");
