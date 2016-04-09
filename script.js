@@ -382,8 +382,8 @@ function selectCard(option) {
         // wont be called even if the hand just resets.
         // Or maybe just let it stay here and remove the one from the
         // declareRoundWinner function.
-        // unlockAchiv();
         save();
+        unlockAchiv();
 	}, 3500);
 }
 
