@@ -484,7 +484,7 @@ function displayUnlockedAchiv(array) {
 	console.log(array);
 	function display() {
 		console.log(array[count].name);
-        // We check to see if the name of the achievement is a Method.
+        // We check to see if the name of the achievement is a method.
         if (typeof array[count].name === "function") {
             document.getElementById("unlockedachiv-name").innerHTML = array[count].name();
         } else  document.getElementById("unlockedachiv-name").innerHTML = array[count].name;
@@ -536,6 +536,11 @@ function getPercent(val, max) {
 }
 
 // Adds delimiters to numbers.
+// FIXME: prettify(-2323232) -> "-2.323.232"
+// prettify(-23232); -> ".-23.232"
+// prettify(-23232232); -> ".-23.232.232")
+// If the there are only 2 characters before the first delimiter, it counts the
+// minus sign too and adds a delimiter at the head of the string.
 function prettify(input) {
     // If there is no delimiter, return the input as it is.
 	if (preferences.delimiter === "") {
@@ -593,38 +598,46 @@ function unprettify(input) {
 }
 
 // Saves the Stats object to localStorage so it wont be lost between sessions.
-function save() {
+// TODO: try btoa and atob for compressing and decompressing.
+function save(type) {
     var achivsArr = [];
     for (var i = 0; i < achivs.length; i++) {
         achivsArr.push({unlocked: achivs[i].unlocked, unlockDate: achivs[i].unlockDate});
     }
-	localStorage.setItem("crps", JSON.stringify(stats));
-    localStorage.setItem("crps2", JSON.stringify(achivsArr));
-	localStorage.setItem("crps3", JSON.stringify(preferences));
+    var saveFile = JSON.stringify({stats: stats, preferences: preferences, achivs: achivsArr});
+
+    if (type === "export") {
+        var compressed = LZString.compressToBase64(saveFile);
+        console.log('Compressing Save');
+        console.log('Compressed from ' + saveFile.length + ' to ' + compressed.length + ' characters');
+        document.getElementById("txt-area").value = compressed;
+    }
+    localStorage.setItem("crps", saveFile);
 	console.log("Saved");
 }
 
 // Loads all the saved objects if they were created by the save function.
-function load() {
-	var savedStats = localStorage.getItem("crps");
-    var savedAchivs = localStorage.getItem("crps2");
-	var savedPreferences = localStorage.getItem("crps3");
-	if (savedStats) {
-		stats = JSON.parse(savedStats);
-		console.log("Stats Loaded");
-	}
-    if (savedAchivs) {
-        var achivsArr = JSON.parse(savedAchivs);
-        for (var i = 0; i <achivsArr.length; i++) {
-            achivs[i].unlocked = achivsArr[i].unlocked;
-            achivs[i].unlockDate = achivsArr[i].unlockDate;
+// TODO: improve this.
+function load(type) {
+	var saveFile = localStorage.getItem("crps");
+	if (saveFile) {
+        var temp = JSON.parse(saveFile);
+		stats = temp.stats;
+        preferences = temp.preferences;
+        for (var i = 0; i < temp.achivs.length; i++) {
+            achivs[i].unlocked = temp.achivs[i].unlocked;
+            achivs[i].unlockDate = temp.achivs[i].unlockDate;
         }
-        console.log("Achievements Loaded");
-    }
-	if (savedPreferences) {
-		preferences = JSON.parse(savedPreferences);
-		console.log("Preferences Loaded");
 	}
+    // TODO: Add a way to show the player he successfully imported the save.
+    if (type === "import") {
+        console.log("Imported saved game");
+        var compressed = document.getElementById("txt-area").value;
+        var decompressed = LZString.decompressFromBase64(compressed);
+        var imported = JSON.parse(decompressed);
+        stats = imported.stats;
+        preferences = imported.preferences;
+    }
 }
 
 // Resets the values saved in localStorage for the Stats and Achievements
@@ -676,9 +689,7 @@ function changePanel(panel) {
 
 	if (panel === "statsscreen") updateStatsPage();
 	else if (panel === "achievementsscreen") updateAchivsPage();
-    // TODO: Clear the value of textarea when changing to options screen.
-    // document.getElementById("txt-area").value = "";
-    else if (panel === "optionsscreen");
+    else if (panel === "optionsscreen") document.getElementById("txt-area").value = "";
 
 	setTimeout(function () {
 		fadeIn(document.getElementById(panel));

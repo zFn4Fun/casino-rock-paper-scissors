@@ -535,10 +535,10 @@
     <p>
       Manualy import or export the save file as text.
     </p>
-    <textarea id="txt-area" onclick=""></textarea> <br />
-    <button>Export</button>
+    <textarea id="txt-area"></textarea> <br />
+    <button onclick="save('export');">Export</button>
     <button onclick="document.getElementById('txt-area').select();document.execCommand('copy');">Copy to Clipboard</button>
-    <button>Import</button>
+    <button onclick="load('import')">Import</button>
   </div>
 
   <div onclick="deleteSave();" class="negative">Reset profile</div>
@@ -566,6 +566,7 @@
   <source src="sounds/02_elevator.mp3" type="audio/mpeg">
 </audio>
 
+<script src="libs/lz-string.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
