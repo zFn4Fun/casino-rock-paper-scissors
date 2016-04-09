@@ -27,7 +27,7 @@ var stats = {
   roundsDrawed: 0,
   bankrupt: 0,
 };
-// The "Achievements" object that holds all the achievements.
+// The "Achievements" array of objects that holds all the achievements.
 var achivs = [
   // Rounds related achievements.
   {name: "Win 100 Rounds with Rock",
@@ -452,17 +452,24 @@ function avoidBankrupcy() {
 }
 
 function unlockAchiv() {
+    // The array where the unlocked achievements are stored.
 	var unlocked = [];
-	for (var i = 0; i < achivs.length; i++) {
-		if (!achivs[i].unlocked && achivs[i].req()) {
-			stats.money += achivs[i].reward;
-			stats.moneyAchivs += achivs[i].reward;
-			achivs[i].unlocked = true;
-			achivs[i].unlockDate = getDateString();
-			unlocked.push(achivs[i]);
-			console.log("Unlocked " + achivs[i].name + " on " + achivs[i].unlockDate);
-		}
-	}
+    // Loop 3 times through all the achievements, in case an achievement gets
+    // unlocked by unlocking another achievement.
+    for (var j = 0; j < 3; j++) {
+    	for (var i = 0; i < achivs.length; i++) {
+    		if (!achivs[i].unlocked && achivs[i].req()) {
+    			stats.money += achivs[i].reward;
+    			stats.moneyAchivs += achivs[i].reward;
+    			achivs[i].unlocked = true;
+    			achivs[i].unlockDate = getDateString();
+    			unlocked.push(achivs[i]);
+    			console.log("Unlocked " + achivs[i].name + " on " + achivs[i].unlockDate);
+    		}
+    	}
+    }
+    // If the unlocked array is not empty, save and call function that displays
+    // the notification that an achievement was unlocked.
 	if (unlocked.length) {
 		save();
 		// I don't think there is a need for this here, besides for debugging.
@@ -471,6 +478,7 @@ function unlockAchiv() {
 	}
 }
 
+// Displays a notification that an achievement was unlocked.
 function displayUnlockedAchiv(array) {
 	var count = 0;
 	console.log(array);
@@ -567,6 +575,21 @@ function prettify(input) {
         // Return the reassambled number.
 		return (output = characteristic + mantissa);
 	}
+}
+
+// Takes a number that was prettified, and returns it without the delimiter.
+function unprettify(input) {
+        console.log("---Input---");
+        console.log(input);
+        var charArray = input.split("");
+        var output = "";
+
+        for (var i = 0; i < charArray.length; i++) {
+            if (charArray[i] != "." && charArray[i] != "," && charArray[i] != [" "]) output += charArray[i];
+        }
+        console.log("---Output---");
+        console.log(Number(output));
+        return Number(output);
 }
 
 // Saves the Stats object to localStorage so it wont be lost between sessions.
@@ -872,9 +895,11 @@ function updateAchivsPage() {
         unlockDate[i].innerHTML = achivs[i].unlockDate;
 
 		if (i < progressArr.length) {
+            maxProgress[i].innerHTML = unprettify(maxProgress[i].innerHTML);
 			if (progressArr[i] > maxProgress[i].innerHTML) progress[i].innerHTML = prettify(maxProgress[i].innerHTML);
 			else progress[i].innerHTML = prettify(progressArr[i]);
-		}
+            maxProgress[i].innerHTML = prettify(maxProgress[i].innerHTML);
+        }
         // If the achievement is unlocked, show it visualy on the achievements
         // screen.
 		if (achivs[i].unlocked) {
