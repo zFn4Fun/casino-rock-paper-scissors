@@ -468,8 +468,8 @@ function unlockAchiv() {
     		}
     	}
     }
-    // If the unlocked array is not empty, save and call function that displays
-    // the notification that an achievement was unlocked.
+    // If the unlocked array is not empty, save and call the function that
+    // displays the notification that an achievement was unlocked.
 	if (unlocked.length) {
 		save();
 		// I don't think there is a need for this here, besides for debugging.
