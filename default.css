@@ -20,6 +20,8 @@ p {
 
 textarea {
   resize: none;
+  width: 85%;
+  height: 160px;
 }
 
 .center {
