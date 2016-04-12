@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("sound-music").volume = preferences.musicVolume;
     tickRadioButton();
     updateSoundIcons();
-    updateSoundVolume();
+    updateSoundVolumeText();
 });
 
 function play(num) {
@@ -237,6 +237,7 @@ function play(num) {
 	}
 }
 
+// Handles the betting.
 function bet(sum) {
 	stats.money -= sum;
 	game.pot = sum * 2;
@@ -423,6 +424,8 @@ function resetHand() {
 	gameLog("");
 
 	for (var i = 0; i < buttons.length; i++) {
+        // I could just call the changeCardState function, since it does the
+        // same thing, but i'm already looping through every card.
 		buttons[i].disabled = false;
 		buttons[i].className = "btn card";
 		fadeIn(buttons[i]);
@@ -782,20 +785,24 @@ function changeSoundVolume(sound, type) {
         if (type === "inc" && preferences.musicVolume < 1) {
             preferences.musicVolume += 0.1;
         }
-        if (type === "dec" && preferences.musicVolume > 0.1) {
+        if (type === "dec" && preferences.musicVolume >= 0.1) {
             preferences.musicVolume -= 0.1;
         }
+        // Workaround for js not being too good with floats.
+        preferences.musicVolume = Number(preferences.musicVolume.toFixed(1));
         music.volume = preferences.musicVolume;
     } else if (sound === "effects") {
         if (type === "inc" && preferences.effectsVolume < 1) {
             preferences.effectsVolume += 0.1;
         }
-        if (type === "dec" && preferences.effectsVolume > 0.1) {
+        if (type === "dec" && preferences.effectsVolume >= 0.1) {
             preferences.effectsVolume -= 0.1;
         }
+        // Workaround for js not being too good with floats.
+        preferences.effectsVolume = Number(preferences.effectsVolume.toFixed(1));
     }
-    updateSoundVolume();
     save();
+    updateSoundVolumeText();
 }
 
 function playSound(url, volume) {
@@ -918,9 +925,10 @@ function updateSoundIcons() {
     else sfxIco.className = unmuted;
 }
 
-function updateSoundVolume() {
-  document.getElementById("volume-music").innerHTML = Math.floor(preferences.musicVolume * 100);
-  document.getElementById("volume-sfx").innerHTML = Math.floor(preferences.effectsVolume * 100);
+// Updates the text that shows the current volume level on the options screen.
+function updateSoundVolumeText() {
+  document.getElementById("volume-music").innerHTML = preferences.musicVolume * 100;
+  document.getElementById("volume-sfx").innerHTML = preferences.effectsVolume * 100;
 }
 
 // Updates the currency symbol everywhere in the html file, based on the one
