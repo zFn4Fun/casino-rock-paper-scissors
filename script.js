@@ -202,8 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // they only run once, when the DOM is loaded.
     document.getElementById("sound-music").muted = preferences.musicMuted;
     document.getElementById("sound-music").volume = preferences.musicVolume;
-	tickCurrencyRadio();
-	tickDelimiterRadio();
+    tickRadioButton();
     updateSoundIcons();
     updateSoundVolume();
 });
@@ -729,8 +728,25 @@ function enableCards(whos) {
 }
 
 
+function tickRadioButton(type) {
+    var radio = [document.getElementsByName("options-currency"),
+        document.getElementsByName("options-delimiter")];
+    var compare = [preferences.currency, preferences.delimiter];
+
+    for (var i = 0; i < radio.length; i++) {
+        for (var j = 0; j < radio[i].length; j++) {
+            if (compare[i] === radio[i][j].value) {
+    			radio[i][j].checked = true;
+    			console.log("Currency: " + compare[i]);
+    			console.log("Value: " + radio[i][j].value);
+    			break;
+    		}
+        }
+    }
+    updateCurrency();
+}
+
 // TODO: Unify setCurrency() and setDelimiter().
-// TODO: Unify tickCurrencyRadio() and tickDelimiterRadio().
 function setCurrency() {
 	var curr = document.getElementsByName("options-currency");
 	for (var i = 0; i < curr.length; i++) {
@@ -745,19 +761,6 @@ function setCurrency() {
 	updateCurrency();
 }
 
-function tickCurrencyRadio() {
-	var curr = document.getElementsByName("options-currency");
-	for (var i = 0; i < curr.length; i++) {
-		if (preferences.currency === curr[i].value) {
-			curr[i].checked = true;
-			console.log("Currency: " + preferences.currency);
-			console.log("Value: " + curr[i].value);
-			break;
-		}
-	}
-	updateCurrency();
-}
-
 function setDelimiter() {
 	var del = document.getElementsByName("options-delimiter");
 	for (var i = 0; i < del.length; i++) {
@@ -769,19 +772,6 @@ function setDelimiter() {
 		}
 	}
 	save();
-}
-
-function tickDelimiterRadio() {
-	var del = document.getElementsByName("options-delimiter");
-	for (var i = 0; i < del.length; i++) {
-		if (preferences.delimiter === del[i].value) {
-			del[i].checked = true;
-			console.log("Delimiter: " + preferences.delimiter);
-			console.log("Value: " + del[i].value);
-			break;
-		}
-	}
-	updateCurrency();
 }
 
 // SOUND
