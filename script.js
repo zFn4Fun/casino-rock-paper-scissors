@@ -455,7 +455,7 @@ function unlockAchiv() {
     // The array where the unlocked achievements are stored.
 	var unlocked = [];
     // Loop 3 times through all the achievements, in case an achievement gets
-    // unlocked by unlocking another achievement.
+    // unlocked by another achievement being unlocked.
     for (var j = 0; j < 3; j++) {
     	for (var i = 0; i < achivs.length; i++) {
     		if (!achivs[i].unlocked && achivs[i].req()) {
@@ -473,6 +473,7 @@ function unlockAchiv() {
 	if (unlocked.length) {
 		save();
 		// I don't think there is a need for this here, besides for debugging.
+        // TODO: Comment this out.
 		updateAchivsPage();
 		displayUnlockedAchiv(unlocked);
 	}
@@ -482,7 +483,7 @@ function unlockAchiv() {
 function displayUnlockedAchiv(array) {
 	var count = 0;
 	console.log(array);
-	function display() {
+	(function display() {
 		console.log(array[count].name);
         // We check to see if the name of the achievement is a method.
         if (typeof array[count].name === "function") {
@@ -499,8 +500,7 @@ function displayUnlockedAchiv(array) {
 			}
 		}, 3000);
 		count++;
-	}
-	display();
+	})();
 }
 
 // UTILITY FUNCTIONS
