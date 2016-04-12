@@ -226,12 +226,13 @@ function play(num) {
             } else betOpts[i].style.display = "inline-block";
         }
 		fadeIn(document.getElementById("betting"));
-		disableCards();
+        // Disables the cards.
+		changeCardState("disable");
     // Otherwise the game is "Free Play", so hide everything money related.
 	} else {
 		fadeOut(document.getElementById("betting"));
 		gameLog("Select a card.");
-		enableCards();
+		changeCardState();
 		// TODO: Need to remove the Pot and Player Money from the game screen.
 	}
 }
@@ -242,7 +243,7 @@ function bet(sum) {
 	updateTableStats();
 	setTimeout(function () {
 		fadeOut(document.getElementById("betting"));
-		enableCards();
+		changeCardState();
 	}, 200);
 	save();
 }
@@ -695,40 +696,24 @@ function changePanel(panel) {
 	}, 1000);
 }
 
-function disableCards(whos) {
-	buttons = document.getElementsByClassName("btn");
-	if (whos === "player") {
-		for (var i = 3; i < buttons.length; i++) {
-			buttons[i].disabled = true;
-		}
-	} else if (whos === "ai") {
-		for (var i = 0; i < 3; i++) {
-			buttons[i].disabled = true;
-		}
-	} else {
-		disableCards("player");
-		disableCards("ai");
-	}
+// Disables of enables the card buttons while playing.
+function changeCardState(type) {
+    var cards = document.getElementsByClassName("card");
+    console.log(cards);
+    var disabled = false;
+
+    if (type === "disable") {
+        disabled = true;
+    }
+
+    for (var i = 0; i < cards.length; i++) {
+        cards[i].disabled = disabled;
+    }
 }
 
-function enableCards(whos) {
-	buttons = document.getElementsByClassName("btn");
-	if (whos === "player") {
-		for (var i = 3; i < buttons.length; i++) {
-			buttons[i].disabled = false;
-		}
-	} else if (whos === "ai") {
-		for (var i = 0; i < 3; i++) {
-			buttons[i].disabled = false;
-		}
-	} else {
-		enableCards("player");
-		enableCards("ai");
-	}
-}
-
-
-function tickRadioButton(type) {
+// Ticks the proper radio buttons so it will be the same as the ones stored in
+// preferences.
+function tickRadioButton() {
     var radio = [document.getElementsByName("options-currency"),
         document.getElementsByName("options-delimiter")];
     var compare = [preferences.currency, preferences.delimiter];
