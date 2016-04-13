@@ -392,6 +392,8 @@ function selectCard(option) {
 function forfeit() {
 	if (confirm("Are you sure you want to forfeit? You will lose the money betted.")) {
 		stats.gamesForfeited++;
+        //TODO: Think of a way to have this called only once.
+        if (stats.gamesForfeited === 1) unlockAchiv();
 		if (document.getElementById("betting").display != "none") {
 			fadeOut(document.getElementById("betting"));
 		}
@@ -702,7 +704,6 @@ function changePanel(panel) {
 // Disables of enables the card buttons while playing.
 function changeCardState(type) {
     var cards = document.getElementsByClassName("card");
-    console.log(cards);
     var disabled = false;
 
     if (type === "disable") {
