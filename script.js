@@ -457,7 +457,8 @@ function avoidBankrupcy() {
 }
 
 function unlockAchiv() {
-    // The array where the unlocked achievements are stored.
+    // The array where the unlocked achievements are stored so they can be
+    // passed to displayUnlockedAchiv().
 	var unlocked = [];
     // Loop 3 times through all the achievements, in case an achievement gets
     // unlocked by another achievement being unlocked.
@@ -589,16 +590,12 @@ function prettify(input) {
 
 // Takes a number that was prettified, and returns it without the delimiter.
 function unprettify(input) {
-        console.log("---Input---");
-        console.log(input);
         var charArray = input.split("");
         var output = "";
 
         for (var i = 0; i < charArray.length; i++) {
             if (charArray[i] != "." && charArray[i] != "," && charArray[i] != [" "]) output += charArray[i];
         }
-        console.log("---Output---");
-        console.log(Number(output));
         return Number(output);
 }
 
@@ -617,6 +614,7 @@ function save(type) {
         console.log('Compressed from ' + saveFile.length + ' to ' + compressed.length + ' characters');
         document.getElementById("txt-area").value = compressed;
     }
+
     localStorage.setItem("crps", saveFile);
 	console.log("Saved");
 }
