@@ -609,10 +609,10 @@ function save(type) {
     var saveFile = JSON.stringify({stats: stats, preferences: preferences, achivs: achivsArr});
 
     if (type === "export") {
-        var compressed = LZString.compressToBase64(saveFile);
+        var encoded = btoa(saveFile);
         console.log('Compressing Save');
-        console.log('Compressed from ' + saveFile.length + ' to ' + compressed.length + ' characters');
-        document.getElementById("txt-area").value = compressed;
+        console.log('Compressed from ' + saveFile.length + ' to ' + encoded.length + ' characters');
+        document.getElementById("txt-area").value = encoded;
     }
 
     localStorage.setItem("crps", saveFile);
@@ -622,24 +622,25 @@ function save(type) {
 // Loads all the saved objects if they were created by the save function.
 // TODO: improve this.
 function load(type) {
-	var saveFile = localStorage.getItem("crps");
-	if (saveFile) {
-        var temp = JSON.parse(saveFile);
-		stats = temp.stats;
-        preferences = temp.preferences;
-        for (var i = 0; i < temp.achivs.length; i++) {
-            achivs[i].unlocked = temp.achivs[i].unlocked;
-            achivs[i].unlockDate = temp.achivs[i].unlockDate;
-        }
-	}
     // TODO: Add a way to show the player he successfully imported the save.
     if (type === "import") {
         console.log("Imported saved game");
-        var compressed = document.getElementById("txt-area").value;
-        var decompressed = LZString.decompressFromBase64(compressed);
-        var imported = JSON.parse(decompressed);
+        var encoded = document.getElementById("txt-area").value;
+        var decoded = atob(encoded);
+        var imported = JSON.parse(decoded);
         stats = imported.stats;
         preferences = imported.preferences;
+    } else {
+        var saveFile = localStorage.getItem("crps");
+    	if (saveFile) {
+            var temp = JSON.parse(saveFile);
+    		stats = temp.stats;
+            preferences = temp.preferences;
+            for (var i = 0; i < temp.achivs.length; i++) {
+                achivs[i].unlocked = temp.achivs[i].unlocked;
+                achivs[i].unlockDate = temp.achivs[i].unlockDate;
+            }
+    	}
     }
 }
 
