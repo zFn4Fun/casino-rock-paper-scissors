@@ -366,24 +366,24 @@ function selectCard(option) {
             } else if (game.rounds === 5) {
                 stats.gamesWomBo5++;
             }
+            save();
         } else if (game.rounds / 2 < game.aiScore) {
-            gameLog("You LOST! <br />Score <br /> <span style='float: left'>You: " + game.playerScore +"</span> <span style='float: right;'>AI: " + game.aiScore + "</span><br /> Click to continue...");
             console.log("------------------");
             document.getElementById("wrapper").addEventListener("click", resetGame);
             // Stats
             stats.gamesLost++;
             stats.moneyLost += game.pot / 2;
-            avoidBankrupcy();
+            // 10 is the minimum betting option.
+            if (stats.money < 10) {
+                avoidBankrupcy();
+                gameLog("You LOST! <br />Score <br /> <span style='text-align: left;width: 40%;display: inline-block'>You: " + game.playerScore +"</span> <span style='text-align: right;width: 40%;display: inline-block''>AI: " + game.aiScore + "</span><br /><span class='text-small'>The casino owner felt bad for you losing all your money, so he gave you 50" + preferences.currency + " back.</span><br /> Click to continue...");
+            } else {
+                gameLog("You LOST! <br />Score <br /> <span style='float: left'>You: " + game.playerScore +"</span> <span style='float: right;'>AI: " + game.aiScore + "</span><br /> Click to continue...");
+                save();
+            }
         } else {
             setTimeout(resetHand, 1000);
         }
-        // Called so it will save if the player wins or loses the game.
-        // TODO:
-        // Maybe put it inside the winning and losing condition, so it
-        // wont be called even if the hand just resets.
-        // Or maybe just let it stay here and remove the one from the
-        // declareRoundWinner function.
-        save();
         unlockAchiv();
 	}, 3500);
 }
@@ -442,18 +442,11 @@ function resetHand() {
 	}
 }
 
-// Prevents the player from going bankrupt by injecting some money.
-// TODO: Decide if it gives the player the difference needed to get to 100$ or
-// it gives him back a random value between 50$ and 100$.
+// Prevents the player from going bankrupt by injecting some money back.
 function avoidBankrupcy() {
-	// 10 is the minimum betting option.
-	if (stats.money < 10) {
-		stats.bankrupt++;
-		stats.money = 100;
-        //TODO: Have a way to show this to the player, thats not the console.
-		console.log("The casino owner felt bad for you losing all your money, so he gave you 100" + preferences.currency + " back.");
-		save();
-	}
+	stats.bankrupt++;
+	stats.money = 50;
+	save();
 }
 
 function unlockAchiv() {
