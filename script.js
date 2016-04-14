@@ -460,6 +460,7 @@ function unlockAchiv() {
     // The array where the unlocked achievements are stored so they can be
     // passed to displayUnlockedAchiv().
 	var unlocked = [];
+    var changed = false;
     // Loop 3 times through all the achievements, in case an achievement gets
     // unlocked by another achievement being unlocked.
     for (var j = 0; j < 3; j++) {
@@ -471,18 +472,27 @@ function unlockAchiv() {
     			achivs[i].unlockDate = getDateString();
     			unlocked.push(achivs[i]);
     			console.log("Unlocked " + achivs[i].name + " on " + achivs[i].unlockDate);
-    		}
+            // If the achievement was previously unlocked, but the requirements
+            // were changed, change the unlocked and unlockDate property to
+            // false.
+    		} else if (achivs[i].unlocked && !achivs[i].req()) {
+                achivs[i].unlocked = false;
+                achivs[i].unlockDate = "";
+                changed = true;
+            }
     	}
     }
     // If the unlocked array is not empty, save and call the function that
     // displays the notification that an achievement was unlocked.
-	if (unlocked.length) {
-		save();
-		// I don't think there is a need for this here, besides for debugging.
+    if (changed || unlocked.length) {
+        save();
+        // I don't think there is a need for this here, besides for debugging.
         // TODO: Comment this out.
-		updateAchivsPage();
-		displayUnlockedAchiv(unlocked);
-	}
+        updateAchivsPage();
+        if (unlocked.length) {
+            displayUnlockedAchiv(unlocked);
+        }
+    }
 }
 
 // Displays a notification that an achievement was unlocked.
@@ -620,7 +630,6 @@ function save(type) {
 }
 
 // Loads all the saved objects if they were created by the save function.
-// TODO: improve this.
 function load(type) {
     // TODO: Add a way to show the player he successfully imported the save.
     if (type === "import") {
