@@ -148,6 +148,11 @@ textarea {
   height: 140px;
 }
 
+.table-info {
+  display: inline-block;
+  width: 49.2%;
+}
+
 .betting-option {
   display: inline-block;
   border: 1px solid gray;

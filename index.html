@@ -3,7 +3,8 @@
 <head>
   <title>Casino Rock Paper Scissors</title>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <link rel="shortcut icon" type="image/png" href="favicon.png" />
   <link href="font-awesome.min.css" rel="stylesheet" />
   <link href="default.css" rel="stylesheet" />
@@ -39,7 +40,12 @@
 </div>
 
 <div class="div_split"></div>
-<div><div style="text-align: left;display: inline-block;width: 49.2%;font-size: 17px;">Pot: <span id="pot">0</span><span class="currency">&dollar;</span></div> <div style="text-align: right;display: inline-block;width: 49.2%;font-size: 17px;">Score: <span id="aiscore">0</span></div></div>
+<div class="text-smaller">
+  <div class="table-info text-left">
+    Pot: <span id="pot">0</span><span class="currency">&dollar;</span>
+  </div>
+  <div class="table-info text-right">Score: <span id="aiscore">0</span></div>
+</div>
 
 <div class="table">
   <div id="betting" class="center">
@@ -58,7 +64,12 @@
   </div>
 </div>
 
-<div><div style="text-align: left;display: inline-block;width: 49.2%;font-size: 17px;">Money: <span id="tablemoney">0</span><span class="currency">&dollar;</span></div> <div style="text-align: right;display: inline-block;width: 49.2%;font-size: 17px;">Score: <span id="playerscore">0</span></div></div>
+<div class="text-smaller">
+  <div class="table-info text-left">
+    Money: <span id="tablemoney">0</span><span class="currency">&dollar;</span>
+  </div>
+  <div class="table-info text-right">Score: <span id="playerscore">0</span></div>
+</div>
 <div class="div_split"></div>
 
 <div class="hand">
