@@ -473,7 +473,7 @@ function unlockAchiv() {
     			unlocked.push(achivs[i]);
     			console.log("Unlocked " + achivs[i].name + " on " + achivs[i].unlockDate);
             // If the achievement was previously unlocked, but the requirements
-            // were changed, change the unlocked and unlockDate property to
+            // were changed, change the unlocked and unlockDate properties to
             // false.
     		} else if (achivs[i].unlocked && !achivs[i].req()) {
                 achivs[i].unlocked = false;
