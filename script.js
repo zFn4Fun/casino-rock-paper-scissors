@@ -254,7 +254,7 @@ function selectCard(option) {
 	var randomNum = Math.floor(Math.random() * 3 + 1);
 	// Randomly selects one of the AI Cards. 1 = Left Card, 2 = Middle Card, 3 = Right Card.
 	var randomNum2 = Math.floor(Math.random() * 3 + 1);
-	var buttons = document.getElementsByClassName("btn");
+	var cards = document.getElementsByClassName("card");
 
 	if (option === "rock") {
 		if (randomNum === 1) {
@@ -289,39 +289,43 @@ function selectCard(option) {
 	}
 
 	// Fades out and disables the Player Cards that weren't selected.
-	for (var i = 3; i < buttons.length; i++) {
-		if (buttons[i].id != option + "btn") {
-			buttons[i].disabled = true;
-			fadeOut(buttons[i]);
+	for (var i = 3; i < cards.length; i++) {
+		if (cards[i].id != option + "card") {
+			cards[i].disabled = true;
+			fadeOut(cards[i]);
 		}
 	}
-
+    console.log("Card: " + randomNum2);
+    console.log("Option: " + randomNum);
 	// Same as above, but for the AI Cards, with a 1 second delay.
-	setTimeout(function () {
+	setTimeout(function() {
 		for (var i = 0; i <= 2; i++) {
-			if (buttons[i].id != "aibtn" + randomNum2) {
-				fadeOut(buttons[i]);
+			if (i != randomNum2 - 1) {
+				fadeOut(cards[i]);
 			}
 		}
 	}, 1000);
 
 	// Adds the text on the AI Card based on randomNum, and then adds the
     // flipping animation, with a 2 seconds delay.
-	setTimeout(function () {
-		// TODO: Maybe have a var that changes based on randomNum.
+	setTimeout(function() {
+        var text = "";
+
 		if (randomNum === 1) {
-			document.getElementById("aibtn" + randomNum2).innerHTML = "<i class='fa fa-hand-rock-o'></i><br /> Rock";
+			text = "<i class='fa fa-hand-rock-o'></i><br /> Rock";
 		} else if (randomNum === 2) {
-			document.getElementById("aibtn" + randomNum2).innerHTML = "<i class='fa fa-hand-paper-o'></i><br /> Paper";
+			text = "<i class='fa fa-hand-paper-o'></i><br /> Paper";
 		} else {
-			document.getElementById("aibtn" + randomNum2).innerHTML = "<i class='fa fa-hand-scissors-o'></i><br /> Scissors";
+			text = "<i class='fa fa-hand-scissors-o'></i><br /> Scissors";
 		}
+
+        document.getElementsByClassName("card")[randomNum2 - 1].innerHTML = text;
 		//TODO: Add the card-active class to the selected AI Card.
-		document.getElementById("aibtn" + randomNum2).className = "btn card animated flipInY";
+		document.getElementsByClassName("card")[randomNum2 - 1].className = "card animated flipInY";
 	}, 2000);
 
 	function declareRoundWinner(who) {
-		setTimeout(function () {
+		setTimeout(function() {
 			if (who === "player") {
 				game.playerScore++;
 				console.log("Round goes to Player. Score: " + game.playerScore + "-" + game.aiScore + " (Draws: " + game.drawScore + ")");
@@ -422,24 +426,21 @@ function resetGame() {
 
 // Resets every card back to the default state and clears the game log.
 function resetHand() {
-	var buttons = document.getElementsByClassName("btn");
+	var cards = document.getElementsByClassName("card");
 	gameLog("");
 
-	for (var i = 0; i < buttons.length; i++) {
-        // I could just call the changeCardState function, since it does the
-        // same thing, but i'm already looping through every card.
-		buttons[i].disabled = false;
-		buttons[i].className = "btn card";
-		fadeIn(buttons[i]);
-	}
-
-	for (var i = 3; i < buttons.length; i++) {
-		buttons[i].className += " card-player";
-	}
-
-	for (var j = 0; j <= 2; j++) {
-		buttons[j].innerHTML = "<i class='fa fa-question'></i><br /> ????????";
-	}
+    for (var i = 0; i < cards.length; i++) {
+        cards[i].disabled = false;
+        cards[i].className = "card";
+        fadeIn(cards[i]);
+        // 0-2 are AI Cards.
+        if (i < 3) {
+            cards[i].innerHTML = "<i class='fa fa-question'></i><br /> ????????";
+        // 3-6 are Player Cards.
+        } else if (i > 2) {
+            cards[i].className += " card-player";
+        }
+    }
 }
 
 // Prevents the player from going bankrupt by injecting some money back.
