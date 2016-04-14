@@ -20,7 +20,7 @@ p {
 
 textarea {
   resize: none;
-  width: 85%;
+  width: 80%;
   height: 160px;
 }
 
@@ -94,8 +94,22 @@ textarea {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.mainscreen {
+.screen {
+  display: none;
+  width: 640px;
+  padding: 20px 0 0;
+}
+
+.screen-main {
   display: inline-block;
+}
+
+.screen-game {
+  width: 350px;
+  padding: 20px;
+}
+
+.screen-achievements {
   width: 600px;
   padding: 20px 20px 0 20px;
 }
@@ -133,12 +147,6 @@ textarea {
 .submenu-option {
   font-size: 14px;
   padding-left: 2px;
-}
-
-.gamescreen {
-  display: none;
-  width: 350px;
-  padding: 20px;
 }
 
 .table {
@@ -191,28 +199,16 @@ textarea {
   font-size: 43px;
 }
 
-.statsscreen {
-  display: none;
-  width: 600px;
-  padding: 20px 20px 0 20px;
-}
-
-.statsscreen p {
-  margin: 0;
-  font-size: 15px;
-  text-align: left;
-}
-
 .stats-category {
   display: inline-block;
   height: 100%;
   padding: 0 6px;
 }
 
-.achievementsscreen {
-  display: none;
-  width: 600px;
-  padding: 20px 20px 0 20px;
+.stats-category p {
+  margin: 0;
+  font-size: 15px;
+  text-align: left;
 }
 
 .achievements-container {
@@ -247,12 +243,6 @@ textarea {
   display: inline-block;
 }
 
-.optionsscreen {
-  display: none;
-  width: 600px;
-  padding: 20px 20px 0 20px;
-}
-
 .unlockedachiv {
   display: none;
   position: fixed;
@@ -282,5 +272,6 @@ textarea {
 }
 
 .div_split-title {
-  margin-bottom: 28px;
+  width: 94%;
+  margin: 10px auto 28px auto;
 }
